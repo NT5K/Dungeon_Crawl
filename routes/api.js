@@ -5,7 +5,7 @@ const router = express.Router()
 router
   .get('/:level', (req, res) => {
 
-    req.connection.query('SELECT * FROM level_questions WHERE id = ?; SELECT * FROM player WHERE id = ?', [req.params.level, 1], (err, data) => {
+    req.connection.query('SELECT * FROM level_questions WHERE id = ?; SELECT * FROM player WHERE id = ?', [req.params.level, req.params.level], (err, data) => {
         
           // display json so can grab data using ajax
           // return res.json(question[1][0].id)
