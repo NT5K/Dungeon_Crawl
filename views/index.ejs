@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+  </head>
+  <body class="bg-dark">
+      <div class="container-fluid bg-cstm">
+      
+        <h2 class="text-white text-center border border-white">DUNGEON CRAWLER</h2>
+      
+        <!-- row for menu at top -->
+        <div class="row justify-content-between mt-1">
+      
+          <!-- player stats column (left) -->
+          <div class="col-md-2 col-sm-3 col-6 border p-3 bg-white">
+      
+            <!-- player stats dynamically built using id's with jQuery -->
+            <h6 class="border-bottom"><b>Player Stats:</b></h6>
+            <div class="text-center" id="player-stats">
+              <h6 id="player-name" class="border-bottom"><%= name %></h6>
+              <h6 id="player-health" class="border-bottom"><%= health %></h6>
+              <h6 id="player-attack" class="border-bottom">Player Attack</h6>
+            </div>
+      
+          </div>
+      
+          <!-- game stats column (right) -->
+          <div class="col-md-2 col-sm-3 col-6 border p-3 bg-white">
+      
+            <h6 class="border-bottom"><b>Things:</b></h6>
+            <div class="text-center" id="game-things">
+              <h6 id="current-level" class="border-bottom">Level / Room #</h6>
+              <h6 id="current-items" class="border-bottom">Items in Inventory</h6>
+              <h6 id="current-time" class="border-bottom">Level Time?</h6>
+            </div>
+      
+          </div>
+      
+          <!-- end stats row -->
+        </div>
+      
+        <!-- game play area -->
+      
+        <!-- row for text -->
+        <div class="row align-items-end justify-content-center pb-1 " id="gamediv">
+   
+          <!-- column for question -->
+          <div class="col-md-6 col-12 bg-warning h-10">
+            <div class="mt-1" id="text-area"><%= question %></div><hr>
+
+            <!-- row for questions and submit button -->
+            <div class="row align-items-end">
+
+              <!-- column for questions -->
+              <div class="col-8">
+
+                <!-- form for questions -->
+                <form>
+
+                    <!-- populate questions -->
+                    <!-- each iteration, create a new radio button -->
+                    <% for (let i = 0; i < choices.split(", ").length; i++) { %>
+
+                      <div class="form-check">
+
+                        <input class="form-check-input" type="radio" name="<%= qId %>" id="<%= [i+1] %>"  value="<%= [i+1] %> checked">
+
+                        <label class="form-check-label" for="<%= [i+1] %>">
+                          <%= choices.split(", ")[i] %>
+                        </label>
+
+                      </div>
+
+                    <!-- end loop -->
+                    <% } %>
+
+                    <!-- hidden submit input -->
+                    <input type="submit" id="submit-form" hidden> 
+
+                </form>
+
+              </div>
+
+              <!-- column for submit button -->
+              <div class="col-4">
+                <!-- button for hidden submit input -->
+                <button for="submit-form" type="submit" class="btn btn-primary mb-2">Continue</button>
+              </div>
+
+            </div>
+            
+            
+          </div>
+          
+        </div>
+      
+      </div>
+    <%- include('partials/scripts') %>
+  </body>
+</html>
