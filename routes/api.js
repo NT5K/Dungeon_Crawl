@@ -27,7 +27,7 @@ router
     })      
 
 
-  .put('/subtracthealth', (req, res) => {
+  .put('/subtracthealth', (req, result) => {
   //   req.connection.query('UPDATE player SET player_health = player_health - 10 WHERE id = 1')
   
     const columnQuery = "SELECT * FROM player WHERE id = 1;";
@@ -60,9 +60,11 @@ router
           return res.status(500).send('bfgsder');
         };
         console.log(data);
-        // return res.status(200).end();
+        return result.end();
       });
     });
   })
 
 module.exports = router
+
+
