@@ -8,6 +8,7 @@ $('#5').on("click", (event) => {
     $.ajax("/subtracthealth", {
         type: "PUT"
         
+        
     }).then(() => {
         // redirect to success page
         location.href = currentURL + "/game/5";

@@ -39,28 +39,28 @@ router
         return res.status(500).send('oops');
       };
 
-      //stock_quantity from first connection.query is the first ?
+      //player from first connection.query is the first ?
       const updateQuery = "UPDATE player SET ? WHERE id = 1;";
 
-      // add input to the stock_quantity row
+      // add input to the player row
       const updateHealth = res[0].player_health - 10;
 
       //object for query
       const updateObject = [
         {
-          stock_health: updateHealth
+          player_health: updateHealth
         }
       ];
 
       // second query for adding the input quantity to the table
-      connection.query(updateQuery, updateObject, (err, data) => {
+      req.connection.query(updateQuery, updateObject, (err, data) => {
         // catch any errors
         if (err) {
           console.log(err);
           return res.status(500).send('bfgsder');
         };
         console.log(data);
-        return result.json(data);
+        // return res.status(200).end();
       });
     });
   })
