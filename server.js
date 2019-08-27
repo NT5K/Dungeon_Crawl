@@ -67,6 +67,9 @@ app
           Server Started on http://localhost:${PORT}`)
   })
 
+
+
+
 app.get('/api/test/session/:name/:value', (req, res) => {
   // res.send(req.session)
   const name = req.params.name
@@ -86,8 +89,9 @@ app.get('/api/test/session/:name/:value', (req, res) => {
   res.send(req.session)
 })
 
-app.post('/login', (req, res) => {
-  const name = req.body.name
+app.put('/login', (req, res) => {
+  const name = req.params.name
+  
   // const value = req.params.value
   const object = {
     player_name : name,
@@ -100,7 +104,7 @@ app.post('/login', (req, res) => {
     torch_state: false,
     torch_damage: 125
   }
-  req.session[object]
+  req.session.object
   res.send(req.session)
   
 })

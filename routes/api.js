@@ -5,16 +5,63 @@ const router = express.Router();
 //===================================================
   // game level and player stats
 //===================================================
+// router
+// .get('/game/level/:page', authenticationMiddleware(), (req, res) => {
+
+//     console.log(req.user)
+//     console.log(req.isAuthenticated())
+//     req.connection.query('SELECT * FROM level_questions WHERE id = ?; SELECT * FROM player WHERE id = 1', [req.params.page], (err, data) => {
+//       // req.session[nick]
+
+//       const q = data[0][0];
+//       const s = data[1][0];
+
+//       // catch any errors
+//       if (err) {
+//         console.log(err);
+//         return res.status(500).send('oops');
+//       };
+
+//         res.render('index', {
+  
+//           //question
+//           qId: q.id,
+//           question: q.question,
+//           choices: q.choices,
+//           next_page: q.next_page_paths,
+//           current_page: q.current_page_number,
+//           background: q.image_path,
+  
+//           // stats
+//           id: s.id,
+//           name: s.player_name,
+//           health: s.player_health,
+//           defence: s.player_defence,
+//           gold: s.player_gold,
+//           sword_state: s.sword_state,
+//           sword_damage: s.sword_damage,
+//           cake_state: s.cake_state,
+//           torch_state: s.torch_state,
+//           createdAt: s.createdAt
+  
+//         });
+
+//       // })
+
+//     });
+
+//   });
+
 router
-.get('/game/level/:page', authenticationMiddleware(), (req, res) => {
+  .get('/game/level/:page', authenticationMiddleware(), (req, res) => {
 
     console.log(req.user)
     console.log(req.isAuthenticated())
-    req.connection.query('SELECT * FROM level_questions WHERE id = ?; SELECT * FROM player WHERE id = 1', [req.params.page], (err, data) => {
-      // req.session[nick]
-
-      const q = data[0][0];
-      const s = data[1][0];
+    req.connection.query('SELECT * FROM level_questions WHERE id = ?;', [req.params.page], (err, data) => {
+      const user = req.session.name
+      // res.send(user.player)
+      const q = data[0];
+      // const s = data[1][0];
 
       // catch any errors
       if (err) {
@@ -22,33 +69,31 @@ router
         return res.status(500).send('oops');
       };
 
-        res.render('index', {
-  
-          //question
-          qId: q.id,
-          question: q.question,
-          choices: q.choices,
-          next_page: q.next_page_paths,
-          current_page: q.current_page_number,
-          background: q.image_path,
-  
-          // stats
-          id: s.id,
-          name: s.player_name,
-          health: s.player_health,
-          defence: s.player_defence,
-          gold: s.player_gold,
-          sword_state: s.sword_state,
-          sword_damage: s.sword_damage,
-          cake_state: s.cake_state,
-          torch_state: s.torch_state,
-          createdAt: s.createdAt
-  
-        });
+      res.render('index', {
 
-      // })
+        //question
+        qId: q.id,
+        question: q.question,
+        choices: q.choices,
+        next_page: q.next_page_paths,
+        current_page: q.current_page_number,
+        background: q.image_path,
 
-    });
+        // stats
+        // id: user.id,
+        name: user.player_name,
+        health: user.player_health,
+        defence: user.player_defence,
+        gold: user.player_gold,
+        sword_state: user.sword_state,
+        sword_damage: user.sword_damage,
+        cake_state: user.cake_state,
+        torch_state: user.torch_state,
+        createdAt: user.createdAt
+
+      });
+
+    })
 
   });
 
@@ -154,33 +199,33 @@ router
 
 
 
-// router.post("/login", (req, res) => {
-//   const query = "INSERT INTO player(player_name, player_password, player_health, player_defence, player_gold, sword_state, sword_damage, cake_state, torch_state, torch_damage) VALUES (?, ?, 100, 100, 1000, true, 100, false, false, 50);";
-//   const body = [req.body.name, req.body.password];
-//   req.connection.query(query, body, (err, result) => {
-//     req.connection.query('SELECT LAST_INSERT_ID() as user_id', (error, results, fields) => {
-//       const user_id = results[0]
+router.post("/login", (req, res) => {
+  const query = "INSERT INTO player(player_name, player_password, player_health, player_defence, player_gold, sword_state, sword_damage, cake_state, torch_state, torch_damage) VALUES (?, ?, 100, 100, 1000, true, 100, false, false, 50);";
+  const body = [req.body.name, req.body.password];
+  req.connection.query(query, body, (err, result) => {
+    req.connection.query('SELECT LAST_INSERT_ID() as user_id', (error, results, fields) => {
+      const user_id = results[0]
 
-//       if (error) {
-//         console.log(error);
-//         return res.status(500).send('oops');
-//       };
-//       // res.json(data[0])
-//       //login user
-//       console.log(user_id)
-//       req.login(user_id, (err) => {
-//         if (err) {
-//           console.log(err);
-//           return res.status(500).send('oops');
-//         };
-//         res.redirect('/game/level/1')
-//       })
+      if (error) {
+        console.log(error);
+        return res.status(500).send('oops');
+      };
+      // res.json(data[0])
+      //login user
+      console.log(user_id)
+      req.login(user_id, (err) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send('oops');
+        };
+        res.redirect('/game/level/1')
+      })
       
-//         //render the game
-//     // return json to display on success page
-//     })
-//   });
-// });
+        //render the game
+    // return json to display on success page
+    })
+  });
+});
 
 passport.serializeUser(function (user_id, done) {
   done(null, user_id);
