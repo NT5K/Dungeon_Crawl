@@ -5,52 +5,52 @@ const router = express.Router();
 //===================================================
   // game level and player stats
 //===================================================
-// router
-// .get('/game/level/:page', authenticationMiddleware(), (req, res) => {
+router
+.get('/game/level/:page', authenticationMiddleware(), (req, res) => {
 
-//     console.log(req.user)
-//     console.log(req.isAuthenticated())
-//     req.connection.query('SELECT * FROM level_questions WHERE id = ?; SELECT * FROM player WHERE id = 1', [req.params.page], (err, data) => {
-//       // req.session[nick]
+    console.log(req.user)
+    console.log(req.isAuthenticated())
+    req.connection.query('SELECT * FROM level_questions WHERE id = ?; SELECT * FROM player WHERE id = 1', [req.params.page], (err, data) => {
+      req.session
 
-//       const q = data[0][0];
-//       const s = data[1][0];
+      const q = data[0][0];
+      const s = data[1][0];
 
-//       // catch any errors
-//       if (err) {
-//         console.log(err);
-//         return res.status(500).send('oops');
-//       };
+      // catch any errors
+      if (err) {
+        console.log(err);
+        return res.status(500).send('oops');
+      };
 
-//         res.render('index', {
+        res.render('index', {
   
-//           //question
-//           qId: q.id,
-//           question: q.question,
-//           choices: q.choices,
-//           next_page: q.next_page_paths,
-//           current_page: q.current_page_number,
-//           background: q.image_path,
+          //question
+          qId: q.id,
+          question: q.question,
+          choices: q.choices,
+          next_page: q.next_page_paths,
+          current_page: q.current_page_number,
+          background: q.image_path,
   
-//           // stats
-//           id: s.id,
-//           name: s.player_name,
-//           health: s.player_health,
-//           defence: s.player_defence,
-//           gold: s.player_gold,
-//           sword_state: s.sword_state,
-//           sword_damage: s.sword_damage,
-//           cake_state: s.cake_state,
-//           torch_state: s.torch_state,
-//           createdAt: s.createdAt
+          // stats
+          id: s.id,
+          name: s.player_name,
+          health: s.player_health,
+          defence: s.player_defence,
+          gold: s.player_gold,
+          sword_state: s.sword_state,
+          sword_damage: s.sword_damage,
+          cake_state: s.cake_state,
+          torch_state: s.torch_state,
+          createdAt: s.createdAt
   
-//         });
+        });
 
-//       // })
+      // })
 
-//     });
+    });
 
-//   });
+  });
 
 router
   .get('/game/level/:page', authenticationMiddleware(), (req, res) => {
@@ -197,12 +197,30 @@ router
 
   });
 
+router.post('/login', (req, res) => {
+  const name = req.params.name
+  console.log(req.params.name)
+  // const value = req.params.value
+  const object = {
+    player_name: name,
+    player_health: 100,
+    player_defence: 25,
+    player_gold: 1000,
+    sword_state: true,
+    sword_damage: 75,
+    cake_state: false,
+    torch_state: false,
+    torch_damage: 125
+  }
+  req.session[object]
+  res.send(req.session)
 
+})
 
 router.post("/login", (req, res) => {
-  const query = "INSERT INTO player(player_name, player_password, player_health, player_defence, player_gold, sword_state, sword_damage, cake_state, torch_state, torch_damage) VALUES (?, ?, 100, 100, 1000, true, 100, false, false, 50);";
-  const body = [req.body.name, req.body.password];
-  req.connection.query(query, body, (err, result) => {
+  // const query = "INSERT INTO player(player_name, player_password, player_health, player_defence, player_gold, sword_state, sword_damage, cake_state, torch_state, torch_damage) VALUES (?, ?, 100, 100, 1000, true, 100, false, false, 50);";
+  // const body = [req.body.name, req.body.password];
+  // req.connection.query(query, body, (err, result) => {
     req.connection.query('SELECT LAST_INSERT_ID() as user_id', (error, results, fields) => {
       const user_id = results[0]
 
@@ -225,7 +243,7 @@ router.post("/login", (req, res) => {
     // return json to display on success page
     })
   });
-});
+// });
 
 passport.serializeUser(function (user_id, done) {
   done(null, user_id);

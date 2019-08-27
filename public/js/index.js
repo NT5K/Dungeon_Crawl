@@ -30,7 +30,7 @@ $('.login-user').on("submit", (event) => {
 
     // alert('clicked button with id of 5')
     $.ajax("/login", {
-        type: "POST",
+        type: "post",
         data: newUser
     }).then(() => {
     

@@ -42,7 +42,7 @@ app
     secret: 'keyboard cat',
     resave: false,
     store: sessionStore, 
-    saveUninitialized: false
+    saveUninitialized: true
     // cookie: { secure: true }
     }))
 
@@ -89,9 +89,9 @@ app.get('/api/test/session/:name/:value', (req, res) => {
   res.send(req.session)
 })
 
-app.put('/login', (req, res) => {
+app.post('/login', (req, res) => {
   const name = req.params.name
-  
+  console.log(req.params.name)
   // const value = req.params.value
   const object = {
     player_name : name,
@@ -104,7 +104,7 @@ app.put('/login', (req, res) => {
     torch_state: false,
     torch_damage: 125
   }
-  req.session.object
+  req.session[object]
   res.send(req.session)
   
 })
