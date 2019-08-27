@@ -2,6 +2,7 @@ CREATE DATABASE DUNGEON_CRAWLER;
 
 -- drop table level_questions
 
+USE DUNGEON_CRAWLER
 
 CREATE TABLE level_questions
 (
