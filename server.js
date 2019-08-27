@@ -40,7 +40,7 @@ app
 app
   .use(session({
     secret: 'keyboard cat',
-    resave: false,
+    resave: true,
     store: sessionStore, 
     saveUninitialized: true
     // cookie: { secure: true }
@@ -89,22 +89,23 @@ app
 //   res.send(req.session)
 // })
 
-// app.post('/login', (req, res) => {
-//   const name = req.params.name
-//   console.log(req.params.name)
-//   // const value = req.params.value
-//   const object = {
-//     player_name : name,
-//     player_health: 100,
-//     player_defence: 25,
-//     player_gold: 1000,
-//     sword_state: true,
-//     sword_damage: 75,
-//     cake_state: false,
-//     torch_state: false,
-//     torch_damage: 125
-//   }
-//   req.session[object]
-//   res.send(req.session)
+app.get('/login', (req, res) => {
+  res.send(req.session)
+  const name = req.params.name
+  console.log("name", name)
+  // const value = req.params.value
+  const object = {
+    player_name : name,
+    player_health: 100,
+    player_defence: 25,
+    player_gold: 1000,
+    sword_state: true,
+    sword_damage: 75,
+    cake_state: false,
+    torch_state: false,
+    torch_damage: 125
+  }
+  req.session[object]
+  res.send(req.session)
   
-// })
+})
