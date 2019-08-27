@@ -9,4 +9,10 @@ router.get('/', (_, res) => {
   })
 })
 
+// router.get('/login', (req, res) => {
+//   res.send("hello")
+//   // const name = req.params.name
+
+// })
+
 module.exports = router
