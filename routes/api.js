@@ -5,16 +5,17 @@ const router = express.Router();
 //===================================================
   // game level and player stats
 //===================================================
-// req.session.player.player_health = req.session.player.player_health - 10
 router
   .get('/game/level/:page', (req, res) => {
 
-    if (req.session.player.player_gold <= 0) {
-      res.render('gameover')
+    // if gold or health are zero or below, redirect to the game over screen
+    if (req.session.player.player_gold <= 0 || req.session.player.player_health <= 0 ) {
+      return res.render('gameover')
     }
 
     req.connection.query('SELECT * FROM level_questions WHERE id = ?;', [req.params.page], (err, data) => {
 
+      // res.json(data[0])
       // res.send(req.session.player )
       const q = data[0];
       const s = req.session.player;
@@ -25,10 +26,9 @@ router
         return res.status(500).send('oops');
       };
 
-      // res.json(data[0])
       return res.render('index', {
 
-        //question
+        //questions from database
         qId: q.id,
         question: q.question,
         choices: q.choices,
@@ -36,8 +36,7 @@ router
         current_page: q.current_page_number,
         background: q.image_path,
 
-        // stats
-        // id: s.id,
+        // stats from session
         name: s.player_name,
         health: s.player_health,
         defence: s.player_defence,
@@ -62,7 +61,7 @@ router
   .get('/player/stats', (req, res) => {
 
     // get complete stats
-    res.send(req.session.player)
+    return res.send(req.session.player)
 
   })      
   
@@ -106,12 +105,12 @@ router.post('/login', (req, res) => {
 
 })
 
-//===================================================
+//==========================================
 // login params pass to session on database
-//===================================================
+//==========================================
 
-
-router.get('/login/:name', (req, res) => {
+router
+  .get('/login/:name', (req, res) => {
 
   // res.json(request.params)
   // res.send(req.session)
