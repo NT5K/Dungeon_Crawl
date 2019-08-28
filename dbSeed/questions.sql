@@ -67,7 +67,7 @@ CREATE TABLE level_questions
             "path 6 the first riddle",
             "Riddle: Towns without houses, forests without trees, mountains without boulders and waterless seas., What is the answer?",
             "A Ocean, A Map, The Sky, A Beach",
-            "7, 8, 7, 7",
+            "7, 8, 71, 72",
             6,
             "/images/backgrounds/page11.jpg"  -- old lady 3
     ),
@@ -158,4 +158,20 @@ CREATE TABLE level_questions
             "9",
             17,
             "/images/backgrounds/page8.jpg" -- torch gone
+    ),
+           (
+            "path 7 incorrect riddle choice",
+            "I am sorry you answered incorrectly, you lost 10 health! What would you like to do now",
+            "Answer another Riddle, Pay the lady for the cake, Go back to your table",
+            "6, 5, 1",
+            71,
+            "/images/backgrounds/page12.jpg"  -- old lady 3
+    ),        
+			(
+            "path 7 incorrect riddle choice",
+            "I am sorry you answered incorrectly, you lost 10 health! What would you like to do now",
+            "Answer another Riddle, Pay the lady for the cake, Go back to your table",
+            "6, 5, 1",
+            72,
+            "/images/backgrounds/page12.jpg"  -- old lady 3
     )
