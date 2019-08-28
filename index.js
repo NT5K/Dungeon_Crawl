@@ -7,7 +7,7 @@ const apiRoutes = require('./routes/api')
 
 // const cookieParser = require('cookie-parser')
 const session = require('express-session')
-
+const MySQLStore = require('express-mysql-session')(session);
 const app = express()
 const PORT = process.env.PORT || 3030
 
@@ -19,12 +19,23 @@ app
   .use(express.static(path.join(__dirname, 'public')))
 
   // .use(cookieParser)
+const options = process.env.JAWSDB_URL || {
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'dungeon_crawler',
+  multipleStatements: true
+}
+const sessionStore = new MySQLStore(options);
 
-  app
-  .use(session({
-    secret: 'keyboard cat',
-  }))
 
+app.use(session({
+  key: 'session_cookie_name',
+  secret:'session_cookie_secret',
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false
+}))
   .use(db)
   .use(htmlRoutes)
   .use(apiRoutes)

@@ -9,10 +9,10 @@ $('#5').on("click", (event) => {
 
     // alert('clicked button with id of 5')
     $.ajax("/gold/subtract", {
-        type: "PUT" 
+        type: "get" 
     }).then(() => {
         $.ajax("/cake/true", {
-            type: "PUT"
+            type: "get"
         });
     }).then(() => {;
         // redirect to next page
