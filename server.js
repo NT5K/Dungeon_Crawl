@@ -5,7 +5,7 @@ const db = require('./db')
 const htmlRoutes = require('./routes/html')
 const apiRoutes = require('./routes/api')
 const app = express()
-const options = reqiure('./db')
+const options = require('./db')
 
 // express session variables
 const session = require('express-session')
