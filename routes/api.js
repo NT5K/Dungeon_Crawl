@@ -5,14 +5,20 @@ const router = express.Router();
 //===================================================
   // game level and player stats
 //===================================================
-
 router
   .get('/game/level/:page', (req, res) => {
 
-    req.connection.query('SELECT * FROM level_questions WHERE id = ?; SELECT * FROM player WHERE id = ?', [req.params.page, 1], (err, data) => {
+    // if gold or health are zero or below, redirect to the game over screen
+    if (req.session.player.player_gold <= 0 || req.session.player.player_health <= 0 ) {
+      return res.render('gameover')
+    }
 
-      const q = data[0][0];
-      const s = data[1][0];
+    req.connection.query('SELECT * FROM level_questions WHERE id = ?;', [req.params.page], (err, data) => {
+
+      // res.json(data[0])
+      // res.send(req.session.player )
+      const q = data[0];
+      const s = req.session.player;
 
       // catch any errors
       if (err) {
@@ -20,10 +26,9 @@ router
         return res.status(500).send('oops');
       };
 
-      // res.json(data[0])
-      res.render('index', {
+      return res.render('index', {
 
-        //question
+        //questions from database
         qId: q.id,
         question: q.question,
         choices: q.choices,
@@ -31,8 +36,7 @@ router
         current_page: q.current_page_number,
         background: q.image_path,
 
-        // stats
-        id: s.id,
+        // stats from session
         name: s.player_name,
         health: s.player_health,
         defence: s.player_defence,
@@ -49,107 +53,95 @@ router
 
   });
 
-//===================================================
-  // get complete player stats
-//===================================================
+//=========================================
+  // get complete player stats from session
+//=========================================
 
 router
   .get('/player/stats', (req, res) => {
 
-    req.connection.query('SELECT * FROM player WHERE id = 1;', (err, data) => {
-      // const d = data[0]
-      res.json(data) 
-      // res.render('index', {
-      //   id: d.id,
-      //   name: d.player_name,
-      //   health: d.player_health,
-      //   defence: d.player_defence,
-      //   gold: d.player_gold,
-      //   sword_state: d.sword_state,
-      //   sword_damage: d.sword_damage,
-      //   cake_state: d.cake_state,
-      //   torch_state: d.torch_state,
-      //   createdAt: d.createdAt
-      // })
-    })
+    // get complete stats
+    return res.send(req.session.player)
+
   })      
   
-//===================================================
+//====================================
   // subtract gold when purchase cake 
-//===================================================
-//   req.connection.query('UPDATE player SET player_health = player_health - 10 WHERE id = 1')
+//====================================
 
 router
-  .put('/gold/subtract', (req, result) => {
-  
-    const columnQuery = "SELECT * FROM player WHERE id = 1;";
+  .get('/gold/subtract', (req, result) => {
 
-    req.connection.query(columnQuery, (err, res) => {
-
-      // catch any errors
-      if (err) {
-        console.log(err);
-        return res.status(500).send('oops');
-      };
-
-      //player from first connection.query is the first ?
-      const updateQuery = "UPDATE player SET ? WHERE id = 1;";
-
-      // update gold count in player row
-      const updateGold = res[0].player_gold - 100;
-
-      //object for query
-      const updateObject = [
-        {
-          player_gold: updateGold
-        }
-      ];
-
-      // second query for adding the input quantity to the table
-      req.connection.query(updateQuery, updateObject, (err, data) => {
-
-        // catch any errors
-        if (err) {
-          console.log(err);
-          return res.status(500).send('bfgsder');
-        };
-
-        console.log(data);
-        return result.status(200).send('successful subtraction of gold');
-
-      });
-
-    });
-
+    // update session on database
+    req.session.player.player_gold -= 100
+    result.send(req.session.player)
+    
   });
 
-//===================================================
+//==============================
 // update cake state to true
-//===================================================
-//   req.connection.query('UPDATE player SET player_health = player_health - 10 WHERE id = 1')
+//==============================
 
 router
-  .put('/cake/true', (req, result) => {
+  .get('/cake/true', (req, result) => {
 
-    const updateCakeTrue = "UPDATE player SET cake_state = true WHERE id = 1;";
-
-      // second query for adding the input quantity to the table
-    req.connection.query(updateCakeTrue, (err, data) => {
-
-      // catch any errors
-      if (err) {
-        console.log(err);
-        return result.status(500).send('error');
-      };
-
-      console.log(data);
-      return result.status(200).send('successful change of cake state');
-
-    });
+    // update session on database
+    req.session.player.cake_state = true
+    result.send(req.session)
 
   });
 
+//==================================================================================
+// login form post to pass to get request that populates the session on the database
+//===================================================================================
 
+router.post('/login', (req, res) => {
+
+  // string to pass
+  const name = String(req.body.name)
+
+  // redirect to the get request to update session
+  res.redirect('/login/' + name)
+
+})
+
+//==========================================
+// login params pass to session on database
+//==========================================
+
+router
+  .get('/login/:name', (req, res) => {
+
+  // res.json(request.params)
+  // res.send(req.session)
+
+  // variables to pass to the cookie
+  const name = req.params.name
+  const value = "player"
+
+  // player object to pass to the cookie
+  // will update the cookie when any variables are changed
+  const player_object = {
+
+    player_name: name,
+    player_health: 100,
+    player_defence: 25,
+    player_gold: 1000,
+    sword_state: true,
+    sword_damage: 75,
+    cake_state: false,
+    torch_state: false,
+    torch_damage: 125
+
+  }
+  
+  // create a object inside the cookie with the value === "player"
+  req.session[value] = player_object
+
+  //redirect to the first level of the game
+  res.redirect('/game/level/1')
+  
+})
 
 
 
@@ -170,4 +162,72 @@ router
 
 module.exports = router
 
+// router
+//   .get('/cake/true', (req, result) => {
+//     // const updateCakeTrue = "UPDATE player SET cake_state = true WHERE id = 1;";
+//     //   // second query for adding the input quantity to the table
+//     // req.connection.query(updateCakeTrue, (err, data) => {
+//     //   // catch any errors
+//     //   if (err) {
+//     //     console.log(err);
+//     //     return result.status(500).send('error');
+//     //   };
+//     //   console.log(data);
+//     //   return result.status(200).send('successful change of cake state');
+//     // });
+//   });
 
+
+// router
+//   .get('/gold/subtract', (req, result) => {
+//     // const columnQuery = "SELECT * FROM player WHERE id = 1;";
+//     // req.connection.query(columnQuery, (err, res) => {
+//     //   // catch any errors
+//     //   if (err) {
+//     //     console.log(err);
+//     //     return res.status(500).send('oops');
+//     //   };
+//     //   //player from first connection.query is the first ?
+//     //   const updateQuery = "UPDATE player SET ? WHERE id = 1;";
+//     //   // update gold count in player row
+//     //   const updateGold = res[0].player_gold - 100;
+//     //   //object for query
+//     //   const updateObject = [
+//     //     {
+//     //       player_gold: updateGold
+//     //     }
+//     //   ];
+//     //   // second query for adding the input quantity to the table
+//     //   req.connection.query(updateQuery, updateObject, (err, data) => {
+//     //     // catch any errors
+//     //     if (err) {
+//     //       console.log(err);
+//     //       return res.status(500).send('bfgsder');
+//     //     };
+//     //     console.log(data);
+//     //     return result.status(200).send('successful subtraction of gold');
+//     //   });
+//     // });
+//   });
+
+// router
+//   .get('/player/stats', (req, res) => {
+//     // do not need connection query anymore, only grab from the session on the database
+//     res.send(req.session.player)
+//     //   req.connection.query('SELECT * FROM player WHERE id = 1;', (err, data) => {
+//     //     // const d = data[0]
+//     //     res.json(data) 
+//     //     // res.render('index', {
+//     //     //   id: d.id,
+//     //     //   name: d.player_name,
+//     //     //   health: d.player_health,
+//     //     //   defence: d.player_defence,
+//     //     //   gold: d.player_gold,
+//     //     //   sword_state: d.sword_state,
+//     //     //   sword_damage: d.sword_damage,
+//     //     //   cake_state: d.cake_state,
+//     //     //   torch_state: d.torch_state,
+//     //     //   createdAt: d.createdAt
+//     //     // })
+//     //   })
+//   })   
