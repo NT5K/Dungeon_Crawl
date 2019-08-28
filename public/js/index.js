@@ -18,27 +18,6 @@ $('#5').on("click", (event) => {
     })
 })
 
-
-// $('.login-user').on("submit", (event) => {
-//     event.preventDefault()
-
-//     const newUser = {
-//         name: $("#name").val().trim(),
-//     }
-
-//     // alert('clicked button with id of 5')
-//     $.ajax("/login", {
-//         type: "post",
-//         data: newUser
-//     }).then(() => {
-
-//         // redirect to next page
-//         location.href = currentURL + "/game/level/1";
-//         // res.redirect('/addquantity/' + id + '/' + quantity)
-//     })
-// })
-
-=======
 //==================================================
   // button click for answering riddle incorrectly
   // lose ten health 
@@ -46,7 +25,7 @@ $('#5').on("click", (event) => {
 $('#7,#71,#72').on("click", (event) => {
     event.preventDefault()
     $.ajax("/health/subtract", {
-        type: "PUT"
+        type: "get"
     }).then(() => {
         //redirect to next page
         location.href =  currentURL + "/game/level/7"
@@ -58,7 +37,7 @@ $('#7,#71,#72').on("click", (event) => {
 $('#8').on("click", (event) => {
     event.preventDefault()
     $.ajax("/cake/true", {
-        type: "PUT"
+        type: "get"
     }).then(() => {;
         // redirect to next page
         location.href = currentURL + "/game/level/8";
@@ -70,7 +49,7 @@ $('#8').on("click", (event) => {
 $('#11').on("click", (event) => {
     event.preventDefault()
     $.ajax("/cake/false", {
-        type: "PUT"
+        type: "get"
     }).then(() => {
         //redirect to next page
         location.href = currentURL + "/game/level/11"
@@ -82,10 +61,10 @@ $('#11').on("click", (event) => {
 $('#17').on("click", (event) => {
     event.preventDefault()
     $.ajax("/torch/true", {
-        type: "PUT"
+        type: "get"
     }).then(() => {
         $.ajax("/health/subtract", {
-            type: "PUT"
+            type: "get"
         })
     }).then(() => {
         //redirect to next page

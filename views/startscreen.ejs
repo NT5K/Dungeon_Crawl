@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+
+    <!-- Intro song for the game -->
+    <audio id="myAudio" controls autoplay hidden>
+        <audio controls></audio>
+        <source src="../media/conv-stScreen.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Background and form -->
+    <section class="hero">
+
+        <div class="hero-inner">
+
+            <h1>Dungeon Crawler</h1>
+            <h2>READY TO CRAWL?</h2>
+
+            <div class="container-fluid">
+
+                <form class="login-user" action="/login" method="post">
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Character Name</span>
+                        </div>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="character name">
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-secondary">Start Game</button>
+
+
+                </form>
+
+
+
+
+            </div>
+
+
+        </div>
+    </section>
+
+
+
+    <%- include('partials/scripts') %>
+</body>
+
+</html>

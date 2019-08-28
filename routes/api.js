@@ -74,24 +74,20 @@ router
 
     // update session on database
     req.session.player.player_gold -= 100
-    result.send(req.session.player)
+    return result.send(req.session.player)
     
   });
 
 //==============================
 // update cake state to true
-
 //==============================
-
-=======
-//===================================================
 
 router
   .get('/cake/true', (req, result) => {
 
     // update session on database
     req.session.player.cake_state = true
-    result.send(req.session)
+    return result.send(req.session)
 
   });
 
@@ -99,13 +95,14 @@ router
 // login form post to pass to get request that populates the session on the database
 //===================================================================================
 
-router.post('/login', (req, res) => {
+router
+  .post('/login', (req, res) => {
 
   // string to pass
   const name = String(req.body.name)
 
   // redirect to the get request to update session
-  res.redirect('/login/' + name)
+  return res.redirect('/login/' + name)
 
 })
 
@@ -144,31 +141,18 @@ router
   req.session[value] = player_object
 
   //redirect to the first level of the game
-  res.redirect('/game/level/1')
+  return res.redirect('/game/level/1')
   
 })
-=======
+
 //===================================================
 // update cake state to false
 //===================================================
 router
-.put('/cake/false', (req, result) => {
+  .get('/cake/false', (req, result) => {
 
-  const updateCakeFalse = "UPDATE player SET cake_state = false WHERE id = 1;";
-
-    // second query for adding the input quantity to the table
-  req.connection.query(updateCakeFalse, (err, data) => {
-
-    // catch any errors
-    if (err) {
-      console.log(err);
-      return result.status(500).send('error');
-    };
-
-    console.log(data);
-    return result.status(200).send('successful change of cake state');
-
-  });
+    req.session.player.cake_state = false
+    return result.send(req.session)
 
 });
 
@@ -178,86 +162,24 @@ router
 //===================================================
 
 router
-  .put('/health/subtract', (req, result) => {
+  .get('/health/subtract', (req, result) => {
   
-    const columnQuery = "SELECT * FROM player WHERE id = 1;";
-
-    req.connection.query(columnQuery, (err, res) => {
-
-    // catch any errors
-    if (err) {
-      console.log(err);
-      return res.status(500).send('oops');
-    };
-
-    //player from first connection.query is the first ?
-    const updateQuery = "UPDATE player SET ? WHERE id = 1;";
-
-    // update health in player row
-    const updateHealth = res[0].player_health - 10;
-
-      //object for query
-      const updateObject = [
-        {
-          player_health: updateHealth
-        }
-      ];
-
-      // second query for adding the input quantity to the table
-      req.connection.query(updateQuery, updateObject, (err, data) => {
-
-        // catch any errors
-        if (err) {
-          console.log(err);
-          return res.status(500).send('bfgsder');
-        };
-
-        console.log(data);
-        return result.status(200).send('successful loss of health');
-
-      });
-
-    });
+    req.session.player.player_health -= 10
+    return result.send(req.session.player)
 
   });
 
 //===================================================
 // update torch state to true
 //===================================================
+
 router
-  .put('/torch/true', (req, result) => {
+  .get('/torch/true', (req, result) => {
 
-    const updateTorchTrue = "UPDATE player SET torch_state = true WHERE id = 1;";
-
-      // second query for adding the input quantity to the table
-    req.connection.query(updateTorchTrue, (err, data) => {
-
-      // catch any errors
-      if (err) {
-        console.log(err);
-        return result.status(500).send('error');
-      };
-
-      console.log(data);
-      return result.status(200).send('successful change of torch state');
-
-    });
+    req.session.player.torch_state = true
+    return result.send(req.session)
 
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router
 
@@ -330,3 +252,102 @@ module.exports = router
 //     //     // })
 //     //   })
 //   })   
+
+
+// //===================================================
+// // update cake state to false
+// //===================================================
+// router
+//   .put('/cake/false', (req, result) => {
+
+//     const updateCakeFalse = "UPDATE player SET cake_state = false WHERE id = 1;";
+
+//     // second query for adding the input quantity to the table
+//     req.connection.query(updateCakeFalse, (err, data) => {
+
+//       // catch any errors
+//       if (err) {
+//         console.log(err);
+//         return result.status(500).send('error');
+//       };
+
+//       console.log(data);
+//       return result.status(200).send('successful change of cake state');
+
+//     });
+
+//   });
+
+
+//===================================================
+// subtract health when riddle is incorrect
+//===================================================
+
+// router
+//   .put('/health/subtract', (req, result) => {
+
+//     const columnQuery = "SELECT * FROM player WHERE id = 1;";
+
+//     req.connection.query(columnQuery, (err, res) => {
+
+//       // catch any errors
+//       if (err) {
+//         console.log(err);
+//         return res.status(500).send('oops');
+//       };
+
+//       //player from first connection.query is the first ?
+//       const updateQuery = "UPDATE player SET ? WHERE id = 1;";
+
+//       // update health in player row
+//       const updateHealth = res[0].player_health - 10;
+
+//       //object for query
+//       const updateObject = [
+//         {
+//           player_health: updateHealth
+//         }
+//       ];
+
+//       // second query for adding the input quantity to the table
+//       req.connection.query(updateQuery, updateObject, (err, data) => {
+
+//         // catch any errors
+//         if (err) {
+//           console.log(err);
+//           return res.status(500).send('bfgsder');
+//         };
+
+//         console.log(data);
+//         return result.status(200).send('successful loss of health');
+
+//       });
+
+//     });
+
+//   });
+
+
+//===================================================
+// update torch state to true
+//===================================================
+// router
+//   .put('/torch/true', (req, result) => {
+
+//     const updateTorchTrue = "UPDATE player SET torch_state = true WHERE id = 1;";
+
+//     // second query for adding the input quantity to the table
+//     req.connection.query(updateTorchTrue, (err, data) => {
+
+//       // catch any errors
+//       if (err) {
+//         console.log(err);
+//         return result.status(500).send('error');
+//       };
+
+//       console.log(data);
+//       return result.status(200).send('successful change of torch state');
+
+//     });
+
+//   });

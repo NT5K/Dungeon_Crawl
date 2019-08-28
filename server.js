@@ -4,11 +4,13 @@ const express = require('express')
 const db = require('./db')
 const htmlRoutes = require('./routes/html')
 const apiRoutes = require('./routes/api')
+const app = express()
 
-// const cookieParser = require('cookie-parser')
+// express session variables
 const session = require('express-session')
 const MySQLStore = require('express-mysql-session')(session);
-const app = express()
+
+// port
 const PORT = process.env.PORT || 3030
 
 app
@@ -18,7 +20,7 @@ app
   .use(express.json())
   .use(express.static(path.join(__dirname, 'public')))
 
-  // .use(cookieParser)
+// options for mysql session
 const options = process.env.JAWSDB_URL || {
   host: 'localhost',
   user: 'root',
@@ -26,9 +28,10 @@ const options = process.env.JAWSDB_URL || {
   database: 'dungeon_crawler',
   multipleStatements: true
 }
+// session store for mysql session
 const sessionStore = new MySQLStore(options);
 
-
+// session cookie
 app.use(session({
   key: 'session_cookie_name',
   secret:'session_cookie_secret',
@@ -36,9 +39,11 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
+
   .use(db)
   .use(htmlRoutes)
   .use(apiRoutes)
+  
   .listen(PORT, () => {
     console.log(`
           oOOOOOo

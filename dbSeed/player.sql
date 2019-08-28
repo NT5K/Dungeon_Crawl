@@ -1,3 +1,8 @@
+
+-- ***********************************************************************************
+-- we do not need this anymore because the player data is stored with express-session
+-- ***********************************************************************************
+
 CREATE TABLE player
 (
     id INT
