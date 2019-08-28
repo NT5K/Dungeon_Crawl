@@ -6,8 +6,6 @@ const currentURL = window.location.origin;
 //===================================================
 $('#5').on("click", (event) => {
     event.preventDefault()
-
-    // alert('clicked button with id of 5')
     $.ajax("/gold/subtract", {
         type: "PUT" 
     }).then(() => {
@@ -42,5 +40,33 @@ $('#8').on("click", (event) => {
     }).then(() => {;
         // redirect to next page
         location.href = currentURL + "/game/level/8";
+    })
+})
+//==================================================
+  // button click giving cake to troll
+//=================================================
+$('#11').on("click", (event) => {
+    event.preventDefault()
+    $.ajax("/cake/false", {
+        type: "PUT"
+    }).then(() => {
+        //redirect to next page
+        location.href = currentURL + "/game/level/11"
+    })
+})
+//==================================================
+  // button click adding torch to inventory
+//=================================================
+$('#17').on("click", (event) => {
+    event.preventDefault()
+    $.ajax("/torch/true", {
+        type: "PUT"
+    }).then(() => {
+        $.ajax("/health/subtract", {
+            type: "PUT"
+        })
+    }).then(() => {
+        //redirect to next page
+        location.href = currentURL + "/game/level/17"
     })
 })

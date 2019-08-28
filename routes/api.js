@@ -126,8 +126,6 @@ router
 //===================================================
 // update cake state to true
 //===================================================
-//   req.connection.query('UPDATE player SET player_health = player_health - 10 WHERE id = 1')
-
 router
   .put('/cake/true', (req, result) => {
 
@@ -149,6 +147,34 @@ router
 
   });
 
+//===================================================
+// update cake state to false
+//===================================================
+router
+.put('/cake/false', (req, result) => {
+
+  const updateCakeFalse = "UPDATE player SET cake_state = false WHERE id = 1;";
+
+    // second query for adding the input quantity to the table
+  req.connection.query(updateCakeFalse, (err, data) => {
+
+    // catch any errors
+    if (err) {
+      console.log(err);
+      return result.status(500).send('error');
+    };
+
+    console.log(data);
+    return result.status(200).send('successful change of cake state');
+
+  });
+
+});
+
+//===================================================
+// subtract health when riddle is incorrect
+//===================================================
+
 router
   .put('/health/subtract', (req, result) => {
   
@@ -165,7 +191,7 @@ router
     //player from first connection.query is the first ?
     const updateQuery = "UPDATE player SET ? WHERE id = 1;";
 
-    // update gold count in player row
+    // update health in player row
     const updateHealth = res[0].player_health - 10;
 
       //object for query
@@ -193,7 +219,29 @@ router
 
   });
 
+//===================================================
+// update torch state to true
+//===================================================
+router
+  .put('/torch/true', (req, result) => {
 
+    const updateTorchTrue = "UPDATE player SET torch_state = true WHERE id = 1;";
+
+      // second query for adding the input quantity to the table
+    req.connection.query(updateTorchTrue, (err, data) => {
+
+      // catch any errors
+      if (err) {
+        console.log(err);
+        return result.status(500).send('error');
+      };
+
+      console.log(data);
+      return result.status(200).send('successful change of torch state');
+
+    });
+
+  });
 
 
 
