@@ -4,7 +4,7 @@
     <%- include('partials/head') %>
   </head>
   <body class="bg-dark">
-      <div class="container-fluid" style="background-image: url('<%= background %>'); background-size: 100%;">
+      <div class="container-fluid" style="background-image: url('<%= background %>'); background-size: 100%; background-repeat: no-repeat;">
       
         <h2 class="text-white text-center border border-white">DUNGEON CRAWLER</h2>
       
@@ -38,7 +38,7 @@
         <div class="row align-items-end justify-content-center pb-1 " id="gamediv">
    
           <!-- column for question / choices -->
-          <div class="col-md-7 col-12 bg-warning h-10">
+          <div class="col-12 bg-warning h-10">
             <div class="mt-1" id="text-area"><%= question %></div><hr>
 
             <!-- row for choices buttons -->

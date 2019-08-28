@@ -101,9 +101,13 @@ router
 
   // string to pass
   const name = String(req.body.name)
-
-  // redirect to the get request to update session
-  return res.redirect('/login/' + name)
+  if (req.body.name === '') {
+    return res.render('startscreen')
+  } else {
+    // redirect to the get request to update session
+    return res.redirect('/login/' + name)
+  }
+ 
 
 })
 
