@@ -27,7 +27,7 @@
 }
 
 #gamediv {
-  height: 450px
+  height: 290px
 }
 
 /* #textarea {
@@ -44,7 +44,7 @@
   font-size: 5px
 } */
 
-.bg-cstm {
+/* .bg-cstm {
   background-image: url("/img/hallway.jpg");
   background-size: 100%;
-}
+} */

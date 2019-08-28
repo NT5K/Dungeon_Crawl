@@ -1,77 +1,74 @@
-function groupBy (fn, arr) {
-  return arr.reduce((acc, v) => {
-    const k = fn(v)
+const currentURL = window.location.origin;
 
-    if (Object.prototype.hasOwnProperty.call(acc, k)) {
-      acc[k].push(v)
-    } else {
-      acc[k] = [v]
-    }
+//===================================================
+  // button click for when you purchase cake from lady
+  // change cake state to true
+//===================================================
+$('#5').on("click", (event) => {
+    event.preventDefault()
+    $.ajax("/gold/subtract", {
+        type: "get" 
+    }).then(() => {
+        $.ajax("/cake/true", {
+            type: "get"
+        });
+    }).then(() => {;
+        // redirect to next page
+        location.href = currentURL + "/game/level/5";
+    })
+})
 
-    return acc
-  }, {})
-}
+//==================================================
+  // button click for answering riddle incorrectly
+  // lose ten health 
+//=================================================
+$('#7,#71,#72').on("click", (event) => {
+    event.preventDefault()
+    $.ajax("/health/subtract", {
+        type: "get"
+    }).then(() => {
+        //redirect to next page
+        location.href =  currentURL + "/game/level/7"
+    })
+})
+//==================================================
+  // button click for answering riddle correctly
+//=================================================
+$('#8').on("click", (event) => {
+    event.preventDefault()
+    $.ajax("/cake/true", {
+        type: "get"
+    }).then(() => {;
+        // redirect to next page
+        location.href = currentURL + "/game/level/8";
+    })
+})
+//==================================================
+  // button click giving cake to troll
+//=================================================
+$('#11').on("click", (event) => {
+    event.preventDefault()
+    $.ajax("/cake/false", {
+        type: "get"
+    }).then(() => {
+        //redirect to next page
+        location.href = currentURL + "/game/level/11"
+    })
+})
+//==================================================
+  // button click adding torch to inventory
+//=================================================
+$('#17').on("click", (event) => {
+    event.preventDefault()
+    $.ajax("/torch/true", {
+        type: "get"
+    }).then(() => {
+        $.ajax("/health/subtract", {
+            type: "get"
+        })
+    }).then(() => {
+        //redirect to next page
+        location.href = currentURL + "/game/level/17"
+    })
+})
 
-/**
- * Sorts an array based on the functions passed it, will go through the functions in order and use ties to the next function in order to break ties. (Does not mutate original array)
- * @param {Array} fns An array of functions to sort with
- * @param {Array} arr The array to sort
- * @return {Array} returns a brand new sorted array
- */
-function sortWith (fns, arr) {
-  return [...arr].sort((a, b) =>
-    fns.reduce((acc, f) => acc === 0 ? f(a, b) : acc, 0))
-}
-
-/**
- * Can be used with sort to ascend an array based on the function passed in
- * @param {Function} fn The function to apply to the values before comparing
- */
-function ascendBy (fn) {
-  return function (a, b) {
-    const A = fn(a)
-    const B = fn(b)
-
-    if (A < B) {
-      return -1
-    }
-
-    if (A > B) {
-      return 1
-    }
-
-    return 0
-  }
-}
-
-/**
- * Can be used with sort to descend an array based on the function passed in
- * @param {Function} fn The function to apply to the values before comparing
- */
-function descendBy (fn) {
-  return function (a, b) {
-    const A = fn(a)
-    const B = fn(b)
-
-    if (A > B) {
-      return -1
-    }
-
-    if (A < B) {
-      return 1
-    }
-
-    return 0
-  }
-}
-
-const data = [{ name: 'alice', age: 40 }, { name: 'bob', age: 30 }, { name: 'clara', age: 40 }]
-
-console.log(
-  sortWith([
-    descendBy(x => x.age),
-    ascendBy(x => x.name)
-  ], data)
-)
-
-console.log(groupBy(x => x.age, data))
