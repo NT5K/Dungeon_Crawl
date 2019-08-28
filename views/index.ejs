@@ -49,7 +49,7 @@
               <!-- each iteration, create a new button -->
               <% for (let i = 0; i < choices.split(", ").length; i++) { %>
                 <div class="col-6">
-                  <a href="https://dungeon-crawl.herokuapp.com/game/level/<%= next_page.split(', ')[i] %>" class="btn btn-primary mb-2" 
+                  <a href="localhost:3030/game/level/<%= next_page.split(', ')[i] %>" class="btn btn-primary mb-2" 
                     role="button" id="<%= next_page.split(', ')[i] %>"><%= choices.split(", ")[i] %></a><br>
                 </div>
               <% } %>
