@@ -8,11 +8,8 @@ router.get('/', (_, res) => {
     user: 'Nerd'
   })
 })
-
-// router.get('/login', (req, res) => {
-//   res.send("hello")
-//   // const name = req.params.name
-
-// })
+router.get('/login', (_, res) => {
+  res.render('login')
+})
 
 module.exports = router
