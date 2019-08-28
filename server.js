@@ -5,7 +5,6 @@ const db = require('./db')
 const htmlRoutes = require('./routes/html')
 const apiRoutes = require('./routes/api')
 const app = express()
-const options = require('./db')
 
 // express session variables
 const session = require('express-session')
@@ -22,13 +21,13 @@ app
   .use(express.static(path.join(__dirname, 'public')))
 
 // options for mysql session
-// const options = process.env.JAWSDB_URL || {
-//   host: 'localhost',
-//   user: 'root',
-//   password: 'password',
-//   database: 'dungeon_crawler',
-//   multipleStatements: true
-// }
+const options = process.env.JAWSDB_URL || {
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'dungeon_crawler',
+  multipleStatements: true
+}
 // const options = process.env.JAWSDB_URL || {
 //   host: 'arfo8ynm6olw6vpn.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
 //   user: 'hqlefz76vqhiyxey',
@@ -42,7 +41,9 @@ const sessionStore = new MySQLStore(options);
 app.use(session({
   key: 'session_cookie_name',
   secret:'session_cookie_secret',
-  store: sessionStore,
+  store: sessionStore({
+    url: process.env.JAWSDB_URL
+  }),
   resave: false,
   saveUninitialized: false
 }))
