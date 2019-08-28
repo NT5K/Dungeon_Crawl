@@ -21,19 +21,19 @@ app
   .use(express.static(path.join(__dirname, 'public')))
 
 // options for mysql session
-const options = process.env.JAWSDB_URL || {
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'dungeon_crawler',
-  multipleStatements: true
-}
 // const options = process.env.JAWSDB_URL || {
-//   host: 'arfo8ynm6olw6vpn.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-//   user: 'hqlefz76vqhiyxey',
-//   password: 'qvgp62dxq6312ohs',
-//   database: 'hv7sc0lylnnyw9rq'
+//   host: 'localhost',
+//   user: 'root',
+//   password: 'password',
+//   database: 'dungeon_crawler',
+//   multipleStatements: true
 // }
+const options = {
+  host: 'arfo8ynm6olw6vpn.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+  user: 'hqlefz76vqhiyxey',
+  password: 'qvgp62dxq6312ohs',
+  database: 'hv7sc0lylnnyw9rq'
+}
 // session store for mysql session
 const sessionStore = new MySQLStore(options);
 
@@ -41,9 +41,7 @@ const sessionStore = new MySQLStore(options);
 app.use(session({
   key: 'session_cookie_name',
   secret:'session_cookie_secret',
-  store: sessionStore({
-    url: process.env.JAWSDB_URL
-  }),
+  store: sessionStore,
   resave: false,
   saveUninitialized: false
 }))
