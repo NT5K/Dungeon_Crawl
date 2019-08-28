@@ -7,16 +7,38 @@ const currentURL = window.location.origin;
 $('#5').on("click", (event) => {
     event.preventDefault()
     $.ajax("/gold/subtract", {
-        type: "PUT" 
+        type: "get" 
     }).then(() => {
         $.ajax("/cake/true", {
-            type: "PUT"
+            type: "get"
         });
     }).then(() => {;
         // redirect to next page
         location.href = currentURL + "/game/level/5";
     })
 })
+
+
+// $('.login-user').on("submit", (event) => {
+//     event.preventDefault()
+
+//     const newUser = {
+//         name: $("#name").val().trim(),
+//     }
+
+//     // alert('clicked button with id of 5')
+//     $.ajax("/login", {
+//         type: "post",
+//         data: newUser
+//     }).then(() => {
+
+//         // redirect to next page
+//         location.href = currentURL + "/game/level/1";
+//         // res.redirect('/addquantity/' + id + '/' + quantity)
+//     })
+// })
+
+=======
 //==================================================
   // button click for answering riddle incorrectly
   // lose ten health 
@@ -70,3 +92,4 @@ $('#17').on("click", (event) => {
         location.href = currentURL + "/game/level/17"
     })
 })
+
