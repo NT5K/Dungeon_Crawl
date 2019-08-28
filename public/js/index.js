@@ -20,4 +20,22 @@ $('#5').on("click", (event) => {
     })
 })
 
+$('.login-user').on("submit", (event) => {
+    event.preventDefault()
+
+    const newUser = {
+        name: $("#name").val().trim(),
+    }
+
+    // alert('clicked button with id of 5')
+    $.ajax("/login", {
+        type: "post",
+        data: newUser
+    }).then(() => {
+
+        // redirect to next page
+        location.href = currentURL + "/game/level/1";
+        // res.redirect('/addquantity/' + id + '/' + quantity)
+    })
+})
 
