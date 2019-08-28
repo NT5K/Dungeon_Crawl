@@ -82,44 +82,45 @@ router
 router
   .put('/gold/subtract', (req, result) => {
   
-    const columnQuery = "SELECT * FROM player WHERE id = 1;";
+    res.cookie( {  } )
+    // const columnQuery = "SELECT * FROM player WHERE id = 1;";
 
-    req.connection.query(columnQuery, (err, res) => {
+    // req.connection.query(columnQuery, (err, res) => {
 
-      // catch any errors
-      if (err) {
-        console.log(err);
-        return res.status(500).send('oops');
-      };
+    //   // catch any errors
+    //   if (err) {
+    //     console.log(err);
+    //     return res.status(500).send('oops');
+    //   };
 
-      //player from first connection.query is the first ?
-      const updateQuery = "UPDATE player SET ? WHERE id = 1;";
+    //   //player from first connection.query is the first ?
+    //   const updateQuery = "UPDATE player SET ? WHERE id = 1;";
 
-      // update gold count in player row
-      const updateGold = res[0].player_gold - 100;
+    //   // update gold count in player row
+    //   const updateGold = res[0].player_gold - 100;
 
-      //object for query
-      const updateObject = [
-        {
-          player_gold: updateGold
-        }
-      ];
+    //   //object for query
+    //   const updateObject = [
+    //     {
+    //       player_gold: updateGold
+    //     }
+    //   ];
 
-      // second query for adding the input quantity to the table
-      req.connection.query(updateQuery, updateObject, (err, data) => {
+    //   // second query for adding the input quantity to the table
+    //   req.connection.query(updateQuery, updateObject, (err, data) => {
 
-        // catch any errors
-        if (err) {
-          console.log(err);
-          return res.status(500).send('bfgsder');
-        };
+    //     // catch any errors
+    //     if (err) {
+    //       console.log(err);
+    //       return res.status(500).send('bfgsder');
+    //     };
 
-        console.log(data);
-        return result.status(200).send('successful subtraction of gold');
+    //     console.log(data);
+    //     return result.status(200).send('successful subtraction of gold');
 
-      });
+    //   });
 
-    });
+    // });
 
   });
 
