@@ -25,6 +25,37 @@ app
     secret: 'keyboard cat',
   }))
 
+  .use(db)
+  .use(htmlRoutes)
+  .use(apiRoutes)
+  .listen(PORT, () => {
+    console.log(`
+          oOOOOOo
+         ,|    oO
+        //|     |
+        \\\\|     |
+          \`-----\`
+          Server Started on http://localhost:${PORT}`)
+  })
+
+
+// app.get('/login', (req, res) => {
+//   res.send(req.session)
+//   const object = {
+//     player_name: "John Smith",
+//     player_health: 100,
+//     player_defence: 25,
+//     player_gold: 1000,
+//     sword_state: true,
+//     sword_damage: 75,
+//     cake_state: false,
+//     torch_state: false,
+//     torch_damage: 125
+//   }
+//   req.session[object]
+
+// })
+
 // app.get('/api/test/session/:name/:value', (req, res) => {
 //   // res.send(req.session)
 //   const name = req.params.name
@@ -43,34 +74,3 @@ app
 //   req.session[value] = object
 //   res.send(req.session)
 // })
-
-  .use(db)
-  .use(htmlRoutes)
-  .use(apiRoutes)
-  .listen(PORT, () => {
-    console.log(`
-          oOOOOOo
-         ,|    oO
-        //|     |
-        \\\\|     |
-          \`-----\`
-          Server Started on http://localhost:${PORT}`)
-  })
-
-
-app.get('/login', (req, res) => {
-  res.send(req.session)
-  const object = {
-    player_name: "John Smith",
-    player_health: 100,
-    player_defence: 25,
-    player_gold: 1000,
-    sword_state: true,
-    sword_damage: 75,
-    cake_state: false,
-    torch_state: false,
-    torch_damage: 125
-  }
-  req.session[object]
-
-})

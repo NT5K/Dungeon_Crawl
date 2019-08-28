@@ -9,10 +9,10 @@ const router = express.Router();
 router
   .get('/game/level/:page', (req, res) => {
 
-    req.connection.query('SELECT * FROM level_questions WHERE id = ?; SELECT * FROM player WHERE id = ?', [req.params.page, 1], (err, data) => {
-
-      const q = data[0][0];
-      const s = data[1][0];
+    req.connection.query('SELECT * FROM level_questions WHERE id = ?;', [req.params.page], (err, data) => {
+      // res.send(req.session)
+      const q = data[0];
+      const s = req.session.player;
 
       // catch any errors
       if (err) {
@@ -32,7 +32,7 @@ router
         background: q.image_path,
 
         // stats
-        id: s.id,
+        // id: s.id,
         name: s.player_name,
         health: s.player_health,
         defence: s.player_defence,
@@ -149,7 +149,49 @@ router
 
   });
 
+//===================================================
+// login form post
+//===================================================
 
+router.post('/login', (req, res) => {
+
+  // string to pass
+  const name = String(req.body.name)
+
+  // redirect to the get request to update local cookie
+  res.redirect('/login/' + name)
+
+})
+
+//===================================================
+// login params pass
+//===================================================
+
+
+router.get('/login/:name', (req, res) => {
+
+  const name = req.params.name
+  const value = "player"
+
+  const object = {
+    player_name: name,
+    player_health: 100,
+    player_defence: 25,
+    player_gold: 1000,
+    sword_state: true,
+    sword_damage: 75,
+    cake_state: false,
+    torch_state: false,
+    torch_damage: 125
+  }
+
+  req.session[value] = object
+  // res.send(req.session)
+  //redirect to the success page
+  res.redirect('/game/level/1')
+  // result.json(request.params)
+
+})
 
 
 
