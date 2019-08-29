@@ -21,21 +21,21 @@ app
   .use(express.static(path.join(__dirname, 'public')))
 
 // options for mysql session when local
-// const options = process.env.JAWSDB_URL || {
-//   host: 'localhost',
-//   user: 'root',
-//   password: 'password',
-//   database: 'dungeon_crawler',
-//   multipleStatements: true
-// }
+const options = {
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'dungeon_crawler',
+  multipleStatements: true
+}
 
 // environment variables stored on heroku
-const options = {
-  host: process.env.JAWSDB_HOST,
-  user: process.env.JAWSDB_USER,
-  password: process.env.JAWSDB_PASSWORD,
-  database: process.env.JAWSDB_DATABASE
-}
+// const options = {
+//   host: process.env.JAWSDB_HOST,
+//   user: process.env.JAWSDB_USER,
+//   password: process.env.JAWSDB_PASSWORD,
+//   database: process.env.JAWSDB_DATABASE
+// }
 
 // session store for mysql session
 const sessionStore = new MySQLStore(options);
