@@ -1,23 +1,3 @@
-/* :root {
-  --font: rgba(0, 0, 0, 0.65);
-  --secondary-font: rgb(220, 124, 124);
-} */
-
-/* html {
-  background-image: url(/img/background.png);
-  height: 100%;
-} */
-
-/* body {
-  background-color: rgba(210, 219, 226, 0.575);
-  color: var(--font);
-  min-height: 100%;
-  margin: 0;
-} */
-
-/* h1 {
-  margin-top: 500px;
-} */
 
 .wrapper {
   width: 50%;
@@ -27,27 +7,16 @@
 }
 
 #gamediv {
-  height: 290px
+  height: 290px;
+  /* margin-left: auto;
+  margin-right: auto; */
 }
-
-/* #textarea {
-  height: 75px
-} */
 
 .container-fluid {
   margin-right: auto;
   margin-left: auto;
   max-width: 1100px;
 }
-
-/* .menutextsmall {
-  font-size: 5px
-} */
-
-/* .bg-cstm {
-  background-image: url("/img/hallway.jpg");
-  background-size: 100%;
-} */
 
 #topTitle {
   color: grey;
