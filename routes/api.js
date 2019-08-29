@@ -101,6 +101,8 @@ router
 
   // string to pass
   const name = String(req.body.name)
+
+  // if form has data continue to game else load start screen again
   if (req.body.name === '') {
     return res.render('startscreen')
   } else {
