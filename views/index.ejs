@@ -15,11 +15,15 @@
           <div class="col-md-2 col-sm-3 col-6 border p-3 bg-white">
       
             <!-- player stats dynamically built using id's with jQuery -->
-            <h6 class="border-bottom"><b>Player Stats:</b></h6>
+            <h6 class="border-bottom"><b><%= name %>:</b></h6>
             <div class="text-center" id="player-stats">
-              <h6 id="player-name" class="border-bottom">Name: <%= name %></h6>
               <h6 id="player-health" class="border-bottom">Health: <%= health %></h6>
               <h6 id="player-attack" class="border-bottom">Gold: <%= gold %></h6>
+            </div>
+
+            <h6 class="border-bottom"><b>Troll:</b></h6>
+            <div class="text-center" id="player-stats">
+              <h6 id="player-health" class="border-bottom">Health: <%= troll_health %></h6>
             </div>
 
             <h6 class="border-bottom"><b>Things:</b></h6>

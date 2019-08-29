@@ -46,6 +46,7 @@ router
         sword_damage: s.sword_damage,
         cake_state: s.cake_state,
         torch_state: s.torch_state,
+        troll_health: s.troll_health,
         createdAt: s.createdAt
 
       });
@@ -91,6 +92,36 @@ router
     return result.send(req.session)
 
   });
+
+
+//==============================
+// check cake state
+//==============================
+
+router
+  .get('/cake/check', (req, res) => {
+
+    // update session on database
+    if (req.session.player.cake_state) {
+      return res.redirect('/game/level/11')
+    } else {
+      return res.redirect('/game/level/1')
+    }
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //==================================================================================
 // login form post to pass to get request that populates the session on the database
@@ -140,7 +171,8 @@ router
     sword_damage: 75,
     cake_state: false,
     torch_state: false,
-    torch_damage: 125
+    torch_damage: 125,
+    troll_health: 100
 
   }
   
