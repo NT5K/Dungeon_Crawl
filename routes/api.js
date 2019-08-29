@@ -74,7 +74,7 @@ router
   .get('/gold/subtract', (req, result) => {
 
     // update session on database
-    req.session.player.player_gold -= 100
+    req.session.player.player_gold -= 500
     return result.send(req.session.player)
     
   });
