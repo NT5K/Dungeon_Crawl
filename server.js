@@ -20,27 +20,30 @@ app
   .use(express.json())
   .use(express.static(path.join(__dirname, 'public')))
 
-// options for mysql session
-// const options = process.env.JAWSDB_URL || {
+// options for mysql session when local
+// const options = {
 //   host: 'localhost',
 //   user: 'root',
 //   password: 'password',
 //   database: 'dungeon_crawler',
 //   multipleStatements: true
 // }
+
+// environment variables stored on heroku
 const options = {
-  host: 'arfo8ynm6olw6vpn.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  user: 'hqlefz76vqhiyxey',
-  password: 'qvgp62dxq6312ohs',
-  database: 'hv7sc0lylnnyw9rq'
+  host: process.env.JAWSDB_HOST,
+  user: process.env.JAWSDB_USER,
+  password: process.env.JAWSDB_PASSWORD,
+  database: process.env.JAWSDB_DATABASE
 }
+
 // session store for mysql session
 const sessionStore = new MySQLStore(options);
 
-// session cookie
+// session cookie, .env variables on heroku
 app.use(session({
-  key: 'session_cookie_name',
-  secret:'session_cookie_secret',
+  key: process.env.SESSION_KEY,
+  secret: process.env.SESSION_SECRET,
   store: sessionStore,
   resave: false,
   saveUninitialized: false
@@ -59,40 +62,3 @@ app.use(session({
           \`-----\`
           Server Started on http://localhost:${PORT}`)
   })
-
-
-// app.get('/login', (req, res) => {
-//   res.send(req.session)
-//   const object = {
-//     player_name: "John Smith",
-//     player_health: 100,
-//     player_defence: 25,
-//     player_gold: 1000,
-//     sword_state: true,
-//     sword_damage: 75,
-//     cake_state: false,
-//     torch_state: false,
-//     torch_damage: 125
-//   }
-//   req.session[object]
-
-// })
-
-// app.get('/api/test/session/:name/:value', (req, res) => {
-//   // res.send(req.session)
-//   const name = req.params.name
-//   const value = req.params.value
-//   const object = {
-//     player_name: name,
-//     player_health: 100,
-//     player_defence: 25,
-//     player_gold: 1000,
-//     sword_state: true,
-//     sword_damage: 75,
-//     cake_state: false,
-//     torch_state: false,
-//     torch_damage: 125
-//   }
-//   req.session[value] = object
-//   res.send(req.session)
-// })
