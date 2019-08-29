@@ -111,6 +111,5 @@ $('#19').on("click", (event) => {
     event.preventDefault()
         // redirect to win page
         location.href = currentURL + "/gamewin";
-   
 })
 
