@@ -5,6 +5,7 @@ const db = require('./db')
 const htmlRoutes = require('./routes/html')
 const apiRoutes = require('./routes/api')
 const app = express()
+// console.log(process.env.JAWSDB_HOST)
 
 // express session variables
 const session = require('express-session')
@@ -20,6 +21,19 @@ app
   .use(express.json())
   .use(express.static(path.join(__dirname, 'public')))
 
+// options for mysql session
+// const options = process.env.JAWSDB_URL || {
+//   host: 'localhost',
+//   user: 'root',
+//   password: 'password',
+//   database: 'dungeon_crawler',
+//   multipleStatements: true
+// }
+
+// console.log(process.env.JAWSDB_HOST)
+// console.log(process.env.JAWSDB_USER)
+// console.log(process.env.JAWSDB_PASSWORD)
+// console.log(process.env.JAWSDB_DATABASE)
 const options = {
   host: process.env.JAWSDB_HOST,
   user: process.env.JAWSDB_USER,
@@ -51,3 +65,40 @@ app.use(session({
           \`-----\`
           Server Started on http://localhost:${PORT}`)
   })
+
+
+// app.get('/login', (req, res) => {
+//   res.send(req.session)
+//   const object = {
+//     player_name: "John Smith",
+//     player_health: 100,
+//     player_defence: 25,
+//     player_gold: 1000,
+//     sword_state: true,
+//     sword_damage: 75,
+//     cake_state: false,
+//     torch_state: false,
+//     torch_damage: 125
+//   }
+//   req.session[object]
+
+// })
+
+// app.get('/api/test/session/:name/:value', (req, res) => {
+//   // res.send(req.session)
+//   const name = req.params.name
+//   const value = req.params.value
+//   const object = {
+//     player_name: name,
+//     player_health: 100,
+//     player_defence: 25,
+//     player_gold: 1000,
+//     sword_state: true,
+//     sword_damage: 75,
+//     cake_state: false,
+//     torch_state: false,
+//     torch_damage: 125
+//   }
+//   req.session[value] = object
+//   res.send(req.session)
+// })
