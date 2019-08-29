@@ -26,7 +26,7 @@
             <div class="text-center" id="game-things">
               <h6 id="current-level" class="border-bottom">Page: <%= current_page %> </h6>
               <h6 id="current-items" class="border-bottom">Cakes: <%= cake_state %></h6>
-              <h6 id="current-time" class="border-bottom">Level Time?</h6>
+              <h6 id="current-time" class="border-bottom">Torch: <%= torch_state %></h6>
             </div>
           </div>
           <!-- end stats row -->
@@ -43,6 +43,7 @@
 
             <!-- row for choices buttons -->
             <div class="row align-items-end">
+
               
               <!-- populate questions -->
               <!-- each iteration, create a new button -->
@@ -52,6 +53,42 @@
                     role="button" id="<%= next_page.split(', ')[i] %>"><%= choices.split(", ")[i] %></a><br>
                 </div>
               <% } %>
+
+
+              <!-- column for questions -->
+              <div class="col-8">
+
+                <!-- form for questions -->
+                <form>
+
+                    <!-- populate questions -->
+                    <!-- each iteration, create a new radio button -->
+                    <% for (let i = 0; i < choices.split(", ").length; i++) { %>
+
+                      <div class="form-check">
+
+                        <input class="form-check-input" type="radio" name="<%= qId %>" id="<%= [i+1] %>"  value="<%= [i+1] %> checked">
+
+                        <label class="form-check-label" for="<%= [i+1] %>">
+                          <%= choices.split(", ")[i] %>
+                        </label>
+
+                      </div>
+
+                    <!-- end loop -->
+                    <% } %>
+
+                    <!-- hidden submit input -->
+                    <input type="submit" id="submit-form" hidden> 
+                    
+                    <button for="submit-form" type="submit" class="btn btn-primary mb-2">Continue</button>
+
+                </form>
+
+              </div>
+                <!-- button for hidden submit input -->
+              
+
 
             </div>
             
