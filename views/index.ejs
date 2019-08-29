@@ -17,10 +17,10 @@
     <div class="row justify-content-left mt-1">
 
       <!-- player stats column (left) -->
-      <div class="col-md-2 col-sm-3 col-6 border p-3 bg-white">
+      <div class="col-md-2 col-sm-3 col-6 statBox ">
 
         <!-- player stats dynamically built using id's with jQuery -->
-        <h6 class="border-bottom"><b>Player Stats:</b></h6>
+        <div class="border-bottom"><b>Player Stats:</b></div>
         <div class="text-center" id="player-stats">
           <h6 id="player-name" class="border-bottom">Name: <%= name %></h6>
           <h6 id="player-health" class="border-bottom">Health: <%= health %></h6>
@@ -43,7 +43,7 @@
     <div class="row align-items-end justify-content-center pb-1 " id="gamediv">
 
       <!-- column for question / choices -->
-      <div class="col-md-7 col-12 bg-warning h-10">
+      <div class="col-md-7 col-12 questionChoices">
         <div class="mt-1" id="text-area"><%= question %></div>
         <hr>
 
@@ -57,7 +57,7 @@
           <!-- each iteration, create a new button -->
           <% for (let i = 0; i < choices.split(", ").length; i++) { %>
           <div class="col-6">
-            <a href="/game/level/<%= next_page.split(', ')[i] %>" class="btn btn-primary mb-2" role="button"
+            <a href="/game/level/<%= next_page.split(', ')[i] %>" class="btn mb-2" role="button"
               id="<%= next_page.split(', ')[i] %>"><%= choices.split(", ")[i] %></a><br>
           </div>
           <% } %>
