@@ -1,11 +1,10 @@
 
 const express = require('express');
-
 const router = express.Router();
 
-//===================================================
+//=================================
   // game level and player stats
-//===================================================
+//=================================
 router
   .get('/game/level/:page', (req, res) => {
 
@@ -81,7 +80,7 @@ router
   });
 
 //==============================
-// update cake state to true
+  // update cake state to true
 //==============================
 
 router
@@ -93,10 +92,9 @@ router
 
   });
 
-
-//==============================
-// check cake state
-//==============================
+//=================================
+  // check cake state (NOT WORKING)
+//=================================
 
 router
   .get('/cake/check', (req, res) => {
@@ -110,82 +108,67 @@ router
 
   });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//==================================================================================
-// login form post to pass to get request that populates the session on the database
-//===================================================================================
+//====================================================================================
+  // login form post to pass to get request that populates the session on the database
+//====================================================================================
 
 router
   .post('/login', (req, res) => {
 
-  // string to pass
-  const name = String(req.body.name)
+    // string to pass
+    const name = String(req.body.name)
 
-  // if form has data continue to game else load start screen again
-  if (req.body.name === '') {
-    return res.render('startscreen')
-  } else {
-    // redirect to the get request to update session
-    return res.redirect('/login/' + name)
-  }
+    // if form has data continue to game else load start screen again
+    if (req.body.name === '') {
+      return res.render('startscreen')
+    } else {
+      // redirect to the get request to update session
+      return res.redirect('/login/' + name)
+    }
  
+  })
 
-})
-
-
-//==========================================
-// login params pass to session on database
-//==========================================
+//============================================
+  // login params pass to session on database
+//============================================
 
 router
   .get('/login/:name', (req, res) => {
 
-  // res.json(request.params)
-  // res.send(req.session)
+    // res.json(request.params)
+    // res.send(req.session)
 
-  // variables to pass to the cookie
-  const name = req.params.name
-  const value = "player"
+    // variables to pass to the cookie
+    const name = req.params.name
+    const value = "player"
 
-  // player object to pass to the cookie
-  // will update the cookie when any variables are changed
-  const player_object = {
+    // player object to pass to the cookie
+    // will update the cookie when any variables are changed
+    const player_object = {
 
-    player_name: name,
-    player_health: 100,
-    player_defence: 25,
-    player_gold: 1000,
-    sword_state: true,
-    sword_damage: 75,
-    cake_state: false,
-    torch_state: false,
-    torch_damage: 125,
-    troll_health: 100
+      player_name: name,
+      player_health: 100,
+      player_defence: 25,
+      player_gold: 1000,
+      sword_state: true,
+      sword_damage: 75,
+      cake_state: false,
+      torch_state: false,
+      torch_damage: 125,
+      troll_health: 100
 
-  }
-  
-  // create a object inside the cookie with the value === "player"
-  req.session[value] = player_object
+    }
+    
+    // create a object inside the cookie with the value === "player"
+    req.session[value] = player_object
 
-  //redirect to the first level of the game
-  return res.redirect('/game/level/1')
-  
-})
+    //redirect to the first level of the game
+    return res.redirect('/game/level/1')
+    
+  })
 
 //===================================================
-// update cake state to false
+  // update cake state to false
 //===================================================
 router
   .get('/cake/false', (req, result) => {
@@ -193,11 +176,10 @@ router
     req.session.player.cake_state = false
     return result.send(req.session)
 
-});
-
+  });
 
 //===================================================
-// subtract health when riddle is incorrect
+  // subtract health when riddle is incorrect
 //===================================================
 
 router
@@ -209,7 +191,7 @@ router
   });
 
 //===================================================
-// update torch state to true
+  // update torch state to true
 //===================================================
 
 router
@@ -219,174 +201,10 @@ router
     return result.send(req.session)
 
   });
-      
+
+//===================================================
+/////////////////////////////////////////////////////
+//===================================================
+
 module.exports = router
 
-// router
-//   .get('/cake/true', (req, result) => {
-//     // const updateCakeTrue = "UPDATE player SET cake_state = true WHERE id = 1;";
-//     //   // second query for adding the input quantity to the table
-//     // req.connection.query(updateCakeTrue, (err, data) => {
-//     //   // catch any errors
-//     //   if (err) {
-//     //     console.log(err);
-//     //     return result.status(500).send('error');
-//     //   };
-//     //   console.log(data);
-//     //   return result.status(200).send('successful change of cake state');
-//     // });
-//   });
-
-
-// router
-//   .get('/gold/subtract', (req, result) => {
-//     // const columnQuery = "SELECT * FROM player WHERE id = 1;";
-//     // req.connection.query(columnQuery, (err, res) => {
-//     //   // catch any errors
-//     //   if (err) {
-//     //     console.log(err);
-//     //     return res.status(500).send('oops');
-//     //   };
-//     //   //player from first connection.query is the first ?
-//     //   const updateQuery = "UPDATE player SET ? WHERE id = 1;";
-//     //   // update gold count in player row
-//     //   const updateGold = res[0].player_gold - 100;
-//     //   //object for query
-//     //   const updateObject = [
-//     //     {
-//     //       player_gold: updateGold
-//     //     }
-//     //   ];
-//     //   // second query for adding the input quantity to the table
-//     //   req.connection.query(updateQuery, updateObject, (err, data) => {
-//     //     // catch any errors
-//     //     if (err) {
-//     //       console.log(err);
-//     //       return res.status(500).send('bfgsder');
-//     //     };
-//     //     console.log(data);
-//     //     return result.status(200).send('successful subtraction of gold');
-//     //   });
-//     // });
-//   });
-
-// router
-//   .get('/player/stats', (req, res) => {
-//     // do not need connection query anymore, only grab from the session on the database
-//     res.send(req.session.player)
-//     //   req.connection.query('SELECT * FROM player WHERE id = 1;', (err, data) => {
-//     //     // const d = data[0]
-//     //     res.json(data) 
-//     //     // res.render('index', {
-//     //     //   id: d.id,
-//     //     //   name: d.player_name,
-//     //     //   health: d.player_health,
-//     //     //   defence: d.player_defence,
-//     //     //   gold: d.player_gold,
-//     //     //   sword_state: d.sword_state,
-//     //     //   sword_damage: d.sword_damage,
-//     //     //   cake_state: d.cake_state,
-//     //     //   torch_state: d.torch_state,
-//     //     //   createdAt: d.createdAt
-//     //     // })
-//     //   })
-//   })   
-
-
-// //===================================================
-// // update cake state to false
-// //===================================================
-// router
-//   .put('/cake/false', (req, result) => {
-
-//     const updateCakeFalse = "UPDATE player SET cake_state = false WHERE id = 1;";
-
-//     // second query for adding the input quantity to the table
-//     req.connection.query(updateCakeFalse, (err, data) => {
-
-//       // catch any errors
-//       if (err) {
-//         console.log(err);
-//         return result.status(500).send('error');
-//       };
-
-//       console.log(data);
-//       return result.status(200).send('successful change of cake state');
-
-//     });
-
-//   });
-
-
-//===================================================
-// subtract health when riddle is incorrect
-//===================================================
-
-// router
-//   .put('/health/subtract', (req, result) => {
-
-//     const columnQuery = "SELECT * FROM player WHERE id = 1;";
-
-//     req.connection.query(columnQuery, (err, res) => {
-
-//       // catch any errors
-//       if (err) {
-//         console.log(err);
-//         return res.status(500).send('oops');
-//       };
-
-//       //player from first connection.query is the first ?
-//       const updateQuery = "UPDATE player SET ? WHERE id = 1;";
-
-//       // update health in player row
-//       const updateHealth = res[0].player_health - 10;
-
-//       //object for query
-//       const updateObject = [
-//         {
-//           player_health: updateHealth
-//         }
-//       ];
-
-//       // second query for adding the input quantity to the table
-//       req.connection.query(updateQuery, updateObject, (err, data) => {
-
-//         // catch any errors
-//         if (err) {
-//           console.log(err);
-//           return res.status(500).send('bfgsder');
-//         };
-
-//         console.log(data);
-//         return result.status(200).send('successful loss of health');
-
-//       });
-
-//     });
-
-//   });
-
-
-//===================================================
-// update torch state to true
-//===================================================
-// router
-//   .put('/torch/true', (req, result) => {
-
-//     const updateTorchTrue = "UPDATE player SET torch_state = true WHERE id = 1;";
-
-//     // second query for adding the input quantity to the table
-//     req.connection.query(updateTorchTrue, (err, data) => {
-
-//       // catch any errors
-//       if (err) {
-//         console.log(err);
-//         return result.status(500).send('error');
-//       };
-
-//       console.log(data);
-//       return result.status(200).send('successful change of torch state');
-
-//     });
-
-//   });
