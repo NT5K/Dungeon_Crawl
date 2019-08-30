@@ -1,11 +1,43 @@
 
-#gamediv {
+/* #gamediv {
   height: 290px
-}
+} */
 
 .container-fluid {
   margin-right: auto;
   margin-left: auto;
   max-width: 800px;
 }
+
+.btn {
+  background-color: rgb(194, 121, 53);
+}
+
+#topTitle {
+  color: rgb(0, 0, 0);
+  text-shadow: 2px 2px 4px rgb(255, 255, 255);
+  font-family: 'Lexend Zetta', sans-serif;
+  background-color: rgb(141, 111, 72);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+  border:2px solid white;
+  border-radius: 10px/30px;
+}
+
+.statBox {
+  border: 1.5px solid white;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 2px 4px rgb(0, 0, 0);
+  font-family: 'Lexend Zetta', sans-serif;
+  background: linear-gradient(to right, rgb(141, 111, 72), rgb(44, 40, 35));
+  border-radius: 20px;
+}
+
+.questionChoices {
+  font-family: 'Lexend Zetta', sans-serif;
+  background-color: aliceblue;
+}
+
 
