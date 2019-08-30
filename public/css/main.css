@@ -1,18 +1,3 @@
-
-/* #gamediv {
-  height: 290px
-} */
-
-.container-fluid {
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 800px;
-}
-
-.btn {
-  background-color: rgb(194, 121, 53);
-}
-
 #topTitle {
   color: rgb(0, 0, 0);
   text-shadow: 2px 2px 4px rgb(255, 255, 255);
@@ -25,6 +10,21 @@
   border:2px solid white;
   border-radius: 10px/30px;
 }
+#gamediv {
+  height: 290px
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 800px;
+}
+
+.btn {
+  background-color: rgb(194, 121, 53);
+}
+
+
 
 .statBox {
   border: 1.5px solid white;
