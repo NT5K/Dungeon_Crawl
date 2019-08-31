@@ -20,7 +20,7 @@ app
   .use(express.json())
   .use(express.static(path.join(__dirname, 'public')))
 
-// options for mysql session when local
+// uncomment options variable for localhost
 // const options = {
 //   host: 'localhost',
 //   user: 'root',
@@ -28,7 +28,7 @@ app
 //   database: 'dungeon_crawler',
 //   multipleStatements: true
 // }
-
+// comment out this for localhost
 // environment variables stored on heroku
 const options = {
   host: process.env.JAWSDB_HOST,
@@ -42,6 +42,7 @@ const sessionStore = new MySQLStore(options);
 
 // session cookie, .env variables on heroku
 app.use(session({
+  // change key and secret to strings for localhost: "process.env.SESSION_KEY"
   key: process.env.SESSION_KEY,
   secret: process.env.SESSION_SECRET,
   store: sessionStore,
@@ -55,10 +56,17 @@ app.use(session({
   
   .listen(PORT, () => {
     console.log(`
-          oOOOOOo
-         ,|    oO
-        //|     |
-        \\\\|     |
-          \`-----\`
+██████╗ ██╗   ██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗ 
+██╔══██╗██║   ██║████╗  ██║██╔════╝ ██╔════╝██╔═══██╗████╗  ██║ 
+██║  ██║██║   ██║██╔██╗ ██║██║  ███╗█████╗  ██║   ██║██╔██╗ ██║ 
+██║  ██║██║   ██║██║╚██╗██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║ 
+██████╔╝╚██████╔╝██║ ╚████║╚██████╔╝███████╗╚██████╔╝██║ ╚████║ 
+╚═════╝  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝ 
+                       ██████╗██████╗  █████╗ ██╗    ██╗██╗     
+ DEVELOPED BY:        ██╔════╝██╔══██╗██╔══██╗██║    ██║██║     
+    TONY              ██║     ██████╔╝███████║██║ █╗ ██║██║     
+    ERIK              ██║     ██╔══██╗██╔══██║██║███╗██║██║     
+    NICK              ╚██████╗██║  ██║██║  ██║╚███╔███╔╝███████╗
+                       ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝
           Server Started on http://localhost:${PORT}`)
   })

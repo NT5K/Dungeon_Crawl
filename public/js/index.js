@@ -1,3 +1,6 @@
+/*  NO MORE ON CLICK EVENTS, THERE IS A IF STATEMENT IN INDEX.EJS THAT CHECKS IF THERE
+ IS A query_option ON THE DATABASE. IF NOT NULL IT DOES THE QUERY 
+
 const currentURL = window.location.origin;
 
 //===================================================
@@ -7,7 +10,7 @@ const currentURL = window.location.origin;
 
 $('#5').on("click", (event) => {
     event.preventDefault()
-    $.ajax("/gold/subtract", {
+    $.ajax("/gold/subtract/500", {
         type: "get" 
     }).then(() => {
         $.ajax("/cake/true", {
@@ -65,7 +68,7 @@ $('#11').on("click", (event) => {
 //==================================================
   // button click adding torch to inventory
 //=================================================
-
+"/torch/true/health/subtract"
 $('#17').on("click", (event) => {
     event.preventDefault()
     $.ajax("/torch/true", {
@@ -89,27 +92,27 @@ $('#8').on("click", (event) => {
     $.ajax("/cake/true", {
         type: "get"
     }).then(() => {
-        
         // redirect to next page
         location.href = currentURL + "/game/level/8";
     })
 })
 
 //==================================================
-  // check if cake state is true or false
+  // make it to the dungeon, redirect to gamewin.ejs
 //=================================================
 
-$('#11').on("click", (event) => {
+//==================================================
+  // if you continue to talk to the old man                           !!!!!!
+//=================================================
+
+$('#22').on("click", (event) => {
     event.preventDefault()
-    $.ajax("/cake/check", {
-        type: "get"
+    $.ajax("/subtract/gold/250", {
+        type: "get",
+    }).then(() => {
+
+        // redirect to next page
+        location.href = currentURL + "/game/level/22";
     })
 })
-
-
-$('#19').on("click", (event) => {
-    event.preventDefault()
-        // redirect to win page
-        location.href = currentURL + "/gamewin";
-})
-
+    */

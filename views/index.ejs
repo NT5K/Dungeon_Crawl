@@ -28,7 +28,7 @@
 
             <h6 class="border-bottom"><b>Things:</b></h6>
             <div class="text-center" id="game-things">
-              <h6 id="current-level" class="border-bottom">Page: <%= current_page %> </h6>
+              <h6 id="current-level" class="border-bottom">Page: <%= qId %> </h6>
               <h6 id="current-items" class="border-bottom">Cakes: <%= cake_state %></h6>
               <h6 id="current-time" class="border-bottom">Torch: <%= torch_state %></h6>
             </div>
@@ -65,6 +65,20 @@
         </div>
       
       </div>
-    <%- include('partials/scripts') %>
+
+        <!-- javascript and jquery -->
+        <%- include('partials/scripts') %>
+      
+        
+        <% if (query_option) { %>
+          <script>
+            // if there is a query_option in the database, do a query
+            const query = "<%= query_option %>"
+            $.ajax(query, {
+                type: "get"
+              })
+          </script>
+        <% } %> 
+
   </body>
 </html>
