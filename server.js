@@ -32,7 +32,7 @@ app
 // }
 
 // comment out this for localhost
-environment variables stored on heroku
+// environment variables stored on heroku
 const options = {
   host: x.JAWSDB_HOST,
   user: x.JAWSDB_USER,
