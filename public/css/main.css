@@ -9,3 +9,6 @@
   max-width: 800px;
 }
 
+.shadow {
+  text-shadow: 2px 2px rgb(37, 37, 37);
+}

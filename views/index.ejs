@@ -72,7 +72,7 @@
         
         <% if (query_option) { %>
           <script>
-            // if there is a query_option in the database, do a query
+            // if there is a query_option in the database, do a query to said route
             const query = "<%= query_option %>"
             $.ajax(query, {
                 type: "get"

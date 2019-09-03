@@ -8,7 +8,7 @@ router.get('/', (_, res) => {
 })
 
 // win page
-router.get('/gamewin', (_, res) => {
+router.get('/game_win', (_, res) => {
   res.render('gamewin')
 })
 

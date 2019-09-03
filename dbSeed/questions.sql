@@ -19,7 +19,7 @@ CREATE TABLE level_questions
     values
         (
             "path 1 when you are sitting at the table in the tavern",
-            "You are at your table, drinking a pint of beer. There is a lady a man and a door. What should you do?",
+            "You are at your table, drinking a pint of beer. There is a lady, a man and a door. What should you do?",
             "Talk to the man?, Talk to the woman?, Go to the door?",
             "2, 3, 9",
             "/images/backgrounds/page1.jpg",
@@ -35,9 +35,9 @@ CREATE TABLE level_questions
     ),
         (
             "path 3 when you are talking to the old lady",
-            "The old lady has a cake and she asks you if you would like to buy a slice or answer a riddle correct and recieve a free slice.",
-            "Buy a slice for 500 gold, Answer the riddle",
-            "5, 6",
+            "The lady has cake. You can either buy a slice for 500 gold or answer a question correctly and get one free.",
+            "Buy a slice for 500 gold, Answer a question, Go back",
+            "5, 6, 1",
             "/images/backgrounds/page3.jpg",
             null-- old lady 3
     ),
@@ -52,24 +52,25 @@ CREATE TABLE level_questions
     ),
         (
             "path 5 buy the slice with gold",
-            "You purchased a spice of cake for some gold!",
+            "You purchased a slice of cake for some gold!",
             "Return to your table, Talk to the old woman again",
             "1, 4",
             "/images/backgrounds/page10.jpg",
             "/gold/subtract/500/cake/true"-- old lady hands cake for gold
     ),
         (
-            "path 6 the first riddle",
+            -- unused path, now goes to riddle.ejs
+            "path 6 the riddle",
             "Riddle: Towns without houses, forests without trees, mountains without boulders and waterless seas., What is the answer?",
             "A Ocean, A Map, The Sky, A Beach",
-            "7, 8, 18, 19", -- 7,18,19 are incorrect choice paths
+            "7, 18, 19, 8", -- 7,18,19 are incorrect choice paths
             "/images/backgrounds/page11.jpg",
             null-- old lady 3
     ),
         (
             "path 7 incorrect riddle choice",
             "I am sorry you answered incorrectly, you lost 10 health! What would you like to do now",
-            "Answer another Riddle, Pay the lady for the cake, Go back to your table",
+            "Answer another question, Pay the lady for the cake, Go back to your table",
             "6, 5, 1",
             "/images/backgrounds/page12.jpg",
             "/health/subtract/10"-- old lady 3
@@ -108,7 +109,7 @@ CREATE TABLE level_questions
     ),
         (
             "path 12 you say you have the cake but actually dont",
-            "Bah! You dont have cake! Me take gold! (loose 250 gold)",
+            "Bah! You dont have cake! Me take gold! (lose 250 gold)",
             "Go back, Fight the troll with your sword",
             "9, 13",
             "/images/backgrounds/page14.jpg",
@@ -157,7 +158,7 @@ CREATE TABLE level_questions
         (
             "path 18 incorrect riddle choice",
             "I am sorry you answered incorrectly, you lost 10 health! What would you like to do now",
-            "Answer another Riddle, Pay the lady for the cake, Go back to your table",
+            "Answer another question, Pay the lady for the cake, Go back to your table",
             "6, 5, 1",
             "/images/backgrounds/page12.jpg",
             "/health/subtract/10"-- old lady 3
@@ -165,7 +166,7 @@ CREATE TABLE level_questions
         (
             "path 19 incorrect riddle choice",
             "I am sorry you answered incorrectly, you lost 10 health! What would you like to do now",
-            "Answer another Riddle, Pay the lady for the cake, Go back to your table",
+            "Answer another question, Pay the lady for the cake, Go back to your table",
             "6, 5, 1",
             "/images/backgrounds/page12.jpg",
             "/health/subtract/10"-- old lady 3
