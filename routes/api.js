@@ -177,6 +177,21 @@ router
 
   });
 
+//===================================================
+// subtract 10 health
+//===================================================
+
+router
+  .get('/health/subtract/10', (req, res) => {
+
+    const x = req.session
+
+     // update session on database
+    x.player.player_health -= 10
+    return res.send(x)
+
+  });
+
 //=========================================
   // get complete player stats from session
 //=========================================
