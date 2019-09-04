@@ -10,8 +10,10 @@ const app = express()
 const session = require('express-session')
 const MySQLStore = require('express-mysql-session')(session);
 
+const x = process.env
+
 // port
-const PORT = process.env.PORT || 3030
+const PORT = x.PORT || 3030
 
 app
   .set('views', path.join(__dirname, 'views'))
@@ -20,7 +22,7 @@ app
   .use(express.json())
   .use(express.static(path.join(__dirname, 'public')))
 
-// options for mysql session when local
+// uncomment options variable for localhost
 const options = {
   host: 'localhost',
   user: 'root',
@@ -29,12 +31,13 @@ const options = {
   multipleStatements: true
 }
 
+// comment out this for localhost
 // environment variables stored on heroku
 // const options = {
-//   host: process.env.JAWSDB_HOST,
-//   user: process.env.JAWSDB_USER,
-//   password: process.env.JAWSDB_PASSWORD,
-//   database: process.env.JAWSDB_DATABASE
+//   host: x.JAWSDB_HOST,
+//   user: x.JAWSDB_USER,
+//   password: x.JAWSDB_PASSWORD,
+//   database: x.JAWSDB_DATABASE
 // }
 
 // session store for mysql session
@@ -42,8 +45,9 @@ const sessionStore = new MySQLStore(options);
 
 // session cookie, .env variables on heroku
 app.use(session({
-  key: 'process.env.SESSION_KEY',
-  secret: 'process.env.SESSION_SECRET',
+  // change key and secret to strings for localhost: "x.SESSION_KEY"
+  key: "x.SESSION_KEY",
+  secret: "x.SESSION_SECRET",
   store: sessionStore,
   resave: false,
   saveUninitialized: false
@@ -55,10 +59,18 @@ app.use(session({
   
   .listen(PORT, () => {
     console.log(`
-          oOOOOOo
-         ,|    oO
-        //|     |
-        \\\\|     |
-          \`-----\`
-          Server Started on http://localhost:${PORT}`)
+ ██████╗ ██╗   ██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗ 
+ ██╔══██╗██║   ██║████╗  ██║██╔════╝ ██╔════╝██╔═══██╗████╗  ██║ 
+ ██║  ██║██║   ██║██╔██╗ ██║██║  ███╗█████╗  ██║   ██║██╔██╗ ██║ 
+ ██║  ██║██║   ██║██║╚██╗██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║ 
+ ██████╔╝╚██████╔╝██║ ╚████║╚██████╔╝███████╗╚██████╔╝██║ ╚████║ 
+ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝ 
+                        ██████╗██████╗  █████╗ ██╗    ██╗██╗     
+  DEVELOPED BY:        ██╔════╝██╔══██╗██╔══██╗██║    ██║██║     
+     TONY              ██║     ██████╔╝███████║██║ █╗ ██║██║     
+     ERIK              ██║     ██╔══██╗██╔══██║██║███╗██║██║     
+     NICK              ╚██████╗██║  ██║██║  ██║╚███╔███╔╝███████╗
+                       ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝
+ dungeon-crawl.herokuapp.com
+                          Server Started on http://localhost:${PORT}`)
   })

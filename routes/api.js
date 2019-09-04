@@ -1,6 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
+var axios = require("axios");
 
 //=================================
   // game level and player stats
@@ -8,49 +9,186 @@ const router = express.Router();
 router
   .get('/game/level/:page', (req, res) => {
 
-    // if gold or health are zero or below, redirect to the game over screen
-    if (req.session.player.player_gold <= 0 || req.session.player.player_health <= 0 ) {
-      return res.render('gameover')
+    // variable for session player info
+    const sess = req.session.player
+
+    // redirect to game over screen if lost all gold is zero or below
+    if (sess.player_gold <= 0) {
+      return res.redirect('/your_broke')
     }
 
-    req.connection.query('SELECT * FROM level_questions WHERE id = ?;', [req.params.page], (err, data) => {
+    // redirect to game over screen if lost all health is zero or below
+    else if (sess.player_health <= 0) {
+      return res.redirect('/you_died')
+    } 
+  
+    // query the question database
+    else {
+      req.connection.query('SELECT * FROM level_questions WHERE id = ?;', [req.params.page], (err, data) => {
 
-      // res.json(data[0])
-      // res.send(req.session.player )
-      const q = data[0];
-      const s = req.session.player;
+        // if page number is greater than the last question id, then redirect to the start page
+        // CHANGE TO MAX DATABASE NUMBER IN THE END
+        if (req.params.page > 22) {
+          return res.redirect('/game_win')
+        }
+      
+        // variables for index.ejs
+        const q = data[0];
 
-      // catch any errors
-      if (err) {
-        console.log(err);
-        return res.status(500).send('oops');
-      };
+        // if you already have a torch and at torch scene
+        if (q.id === 16 && sess.torch_state) {
+          res.redirect('/game/level/20')
+        }
 
-      return res.render('index', {
+        // if you already have a cake and talking to the lady
+        else if (q.id === 3 && sess.cake_state) {
+          res.redirect('/game/level/21')
+        }
 
-        //questions from database
-        qId: q.id,
-        question: q.question,
-        choices: q.choices,
-        next_page: q.next_page_paths,
-        current_page: q.current_page_number,
-        background: q.image_path,
+        // if you say yes but do not have cake 
+        else if (q.id === 11 && !sess.cake_state) {
+          res.redirect('/game/level/12')
+        }
+        // catch any errors
+        else if (err) {
+          console.log(err);
+          return res.status(500).send('oops');
+        }
 
-        // stats from session
-        name: s.player_name,
-        health: s.player_health,
-        defence: s.player_defence,
-        gold: s.player_gold,
-        sword_state: s.sword_state,
-        sword_damage: s.sword_damage,
-        cake_state: s.cake_state,
-        torch_state: s.torch_state,
-        troll_health: s.troll_health,
-        createdAt: s.createdAt
+        // show the index page with current page
+        else if (q.id === 6) {
+
+          const queryURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple"
+
+          axios
+            .get(queryURL).then(
+            function (response) {
+
+              const queryData = response.data.results[0]
+              
+              res.render('riddle', {
+                qId: q.id,
+                question: queryData.question,
+                choices: queryData.incorrect_answers,
+                answer: queryData.correct_answer,
+                next_page: q.next_page_paths,
+                description: q.description,
+                // current_page: q.current_page_number,
+                background: q.image_path,
+                query_option: q.query_option,
+
+                // stats from session
+                name: sess.player_name,
+                health: sess.player_health,
+                defence: sess.player_defence,
+                gold: sess.player_gold,
+                sword_sess: sess.sword_state,
+                sword_damage: sess.sword_damage,
+                cake_state: sess.cake_state,
+                torch_state: sess.torch_state,
+                troll_health: sess.troll_health,
+                createdAt: sess.createdAt
+
+              })
+
+          })
+
+        } else {
+
+          return res.render('index', {
+  
+            //questions from database
+            qId: q.id,
+            question: q.question,
+            choices: q.choices,
+            next_page: q.next_page_paths,
+            description: q.description,
+            // current_page: q.current_page_number,
+            background: q.image_path,
+            query_option: q.query_option,
+  
+            // stats from session
+            name: sess.player_name,
+            health: sess.player_health,
+            defence: sess.player_defence,
+            gold: sess.player_gold,
+            sword_sess: sess.sword_state,
+            sword_damage: sess.sword_damage,
+            cake_state: sess.cake_state,
+            torch_state: sess.torch_state,
+            troll_health: sess.troll_health,
+            createdAt: sess.createdAt
+            
+  
+          });
+
+        }
 
       });
 
-    });
+    }
+
+  });
+
+//=========================================
+  // subtract gold when purchase cake = true
+//=========================================
+
+router
+  .get('/gold/subtract/500/cake/true', (req, res) => {
+
+    const x = req.session
+
+    // update session on database
+    x.player.player_gold -= 500
+    x.player.cake_state = true
+    return res.send(x.player)
+    
+  });
+
+//=============================================
+  // subtract 250 gold when talking to old man
+//=============================================
+
+router
+  .get('/subtract/gold/250', (req, res) => {
+
+    const x = req.session
+
+     // update session on database
+    x.player.player_gold -= 250
+    return res.send(x.player)
+
+  });
+
+//===================================================
+// update torch state to true
+//===================================================
+
+router
+  .get('/torch/true/health/subtract', (req, res) => {
+
+    const x = req.session
+
+     // update session on database
+    x.player.torch_state = true
+    x.player.player_health -= 10
+    return res.send(x)
+
+  });
+
+//===================================================
+// subtract 10 health
+//===================================================
+
+router
+  .get('/health/subtract/10', (req, res) => {
+
+    const x = req.session
+
+     // update session on database
+    x.player.player_health -= 10
+    return res.send(x)
 
   });
 
@@ -62,54 +200,38 @@ router
   .get('/player/stats', (req, res) => {
 
     // get complete stats
-    return res.send(req.session.player)
+    return res.send(req.session)
 
   })      
-  
-//====================================
-  // subtract gold when purchase cake 
-//====================================
+
+
+//=========================================
+  // update cake state to true for riddle
+//=========================================
 
 router
-  .get('/gold/subtract', (req, result) => {
-
-    // update session on database
-    req.session.player.player_gold -= 500
-    return result.send(req.session.player)
-    
-  });
-
-//==============================
-  // update cake state to true
-//==============================
-
-router
-  .get('/cake/true', (req, result) => {
+  .get('/cake/true', (req, res) => {
 
     // update session on database
     req.session.player.cake_state = true
-    return result.send(req.session)
+    return res.send(req.session)
 
   });
 
-//=================================
-  // check cake state (NOT WORKING)
-//=================================
+// //===================================================
+//   // update cake state to false
+// //===================================================
 
-router
-  .get('/cake/check', (req, res) => {
+// router
+//   .get('/cake/false', (req, res) => {
 
-    // update session on database
-    if (req.session.player.cake_state) {
-      return res.redirect('/game/level/11')
-    } else {
-      return res.redirect('/game/level/1')
-    }
+//     req.session.player.cake_state = false
+//     return res.send(req.session)
 
-  });
+//   });
 
 //====================================================================================
-  // login form post to pass to get request that populates the session on the database
+// login form post to pass to get request that populates the session on the database
 //====================================================================================
 
 router
@@ -122,14 +244,14 @@ router
     if (req.body.name === '') {
       return res.render('startscreen')
     } else {
-      // redirect to the get request to update session
+      // redirect to the get request to create session
       return res.redirect('/login/' + name)
     }
- 
+
   })
 
 //============================================
-  // login params pass to session on database
+// login params pass to session on database
 //============================================
 
 router
@@ -158,49 +280,47 @@ router
       troll_health: 100
 
     }
-    
+
     // create a object inside the cookie with the value === "player"
     req.session[value] = player_object
 
     //redirect to the first level of the game
     return res.redirect('/game/level/1')
-    
+
   })
 
-//===================================================
-  // update cake state to false
-//===================================================
-router
-  .get('/cake/false', (req, result) => {
 
-    req.session.player.cake_state = false
-    return result.send(req.session)
 
-  });
-
-//===================================================
-  // subtract health when riddle is incorrect
-//===================================================
+//=========================================
+// view all sessoins
+//=========================================
 
 router
-  .get('/health/subtract', (req, result) => {
+  .get('/sessions/all', (req, res) => {
+
+    req.connection.query('SELECT * FROM sessions;', (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('oops');
+      }
+
+      return res.json(data)
+
+    })
+
+  })    
   
-    req.session.player.player_health -= 10
-    return result.send(req.session.player)
-
-  });
-
-//===================================================
-  // update torch state to true
-//===================================================
+//=========================================
+// view your cookie
+//=========================================
 
 router
-  .get('/torch/true', (req, result) => {
+  .get('/sessions/yours', (req, res) => {
 
-    req.session.player.torch_state = true
-    return result.send(req.session)
+    res.json(req.session)
 
-  });
+  })      
+
 
 //===================================================
 /////////////////////////////////////////////////////
