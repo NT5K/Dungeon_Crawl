@@ -41,32 +41,39 @@ router
         // variables for index.ejs
         const q = data[0]
 
-        // // if you already have a torch and at torch scene
-        checkStateTrueFalse(q, res, 16, sess.torch_state, '/game/level/20')
+        // if you already have a torch and at torch scene
+        if (q.id === 16 && sess.torch_state) {
+          res.redirect('/game/level/20')
+        }
 
         // if you already have a cake and talking to the lady
-        checkStateTrueFalse(q, res, 3, sess.cake_state, '/game/level/21')
-      
+        else if (q.id === 3 && sess.cake_state) {
+          res.redirect('/game/level/21')
+        }
+
         // if you say yes but do not have cake 
-        checkStateTrueFalse(q, res, 11, !sess.cake_state, '/game/level/12')
-        
+        else if (q.id === 11 && !sess.cake_state) {
+          res.redirect('/game/level/12')
+        }
+
         // if you attack with torch but do not have torch
-        checkStateTrueFalse(q, res, 15, !sess.torch_state, '/game/level/23')
-   
+        else if (q.id === 15 && !sess.torch_state) {
+          res.redirect('/game/level/23')
+        }
+
         // if troll is not dead
-        checkEvaluation(q, res, 14, sess.troll_health, ">",  75, '/game/level/24')   
+        else if (q.id === 14 && sess.troll_health > 75) {
+          res.redirect('/game/level/24')
+        }
 
-        // // if troll is dead
-        // checkEvaluation(q, res, 13, sess.troll_health, "<=", 0, '/game/level/25')
-        // checkEvaluation(q, res, 9, sess.troll_health, "<=", 0, '/game/level/25')
-        if ((q.id === 13 && sess.troll_health <= 0) || (q.id === 9 && sess.troll_health <= 0)) {
+        else if ((q.id === 13 && sess.troll_health <= 0) || (q.id === 9 && sess.troll_health <= 0)) {
 
-          return res.redirect('/game/level/25')
+          res.redirect('/game/level/25')
 
         }
 
         // catch any errors
-        if (err) {
+        else if (err) {
 
           console.log(err)
           return res.status(500).send('oops')
@@ -151,13 +158,11 @@ router
 router
   .get('/gold/subtract/500/cake/true', (req, res) => {
 
-    const x = req.session
-
     // update session on database
-    x.player.player_gold -= 500
-    x.player.cake_state = true
+    req.session.player.player_gold -= 500
+    req.session.player.cake_state = true
     
-    return res.send(x.player)
+    return res.send(req.session.player)
     
   })
 
@@ -168,12 +173,10 @@ router
 router
   .get('/subtract/gold/250', (req, res) => {
 
-    const x = req.session
-
      // update session on database
-    x.player.player_gold -= 250
+    req.session.player.player_gold -= 250
 
-    return res.send(x.player)
+    return res.send(req.session.player)
 
   })
 
@@ -184,12 +187,10 @@ router
 router
 .get('/add/gold/250', (req, res) => {
 
-  const x = req.session
-
    // update session on database
-  x.player.player_gold += 250
+  req.session.player.player_gold += 250
 
-  return res.send(x.player)
+  return res.send(req.session.player)
 
 })
 
@@ -200,13 +201,11 @@ router
 router
   .get('/torch/true/health/subtract', (req, res) => {
 
-    const x = req.session
-
      // update session on database
-    x.player.torch_state = true
-    x.player.player_health -= 10
+    req.session.player.torch_state = true
+    req.session.player.player_health -= 10
 
-    return res.send(x)
+    return res.send(req.session)
 
   })
 
@@ -217,12 +216,10 @@ router
 router
   .get('/health/subtract/10', (req, res) => {
 
-    const x = req.session
-
      // update session on database
-    x.player.player_health -= 10
+    req.session.player.player_health -= 10
 
-    return res.send(x)
+    return res.send(req.session)
 
   })
 
@@ -245,12 +242,10 @@ router
 router
   .get('/cake/true', (req, res) => {
 
-    const x = req.session
-
     // update session on database
-    x.player.cake_state = true
+    req.session.player.cake_state = true
 
-    return res.send(x)
+    return res.send(req.session)
 
   })
 
@@ -260,12 +255,10 @@ router
 router
   .get('/attack/sword', (req, res) => {
 
-    const x = req.session
-
     // update session on database
-    x.player.troll_health -= 75
+    req.session.player.troll_health -= 75
 
-    return res.send(x)
+    return res.send(req.session)
 
   })
 
@@ -275,12 +268,10 @@ router
 router
   .get('/attack/torch', (req, res) => {
 
-    const x = req.session
-
     // update session on database
-    x.player.troll_health -= 125
+    req.session.player.troll_health -= 125
 
-    return res.send(x)
+    return res.send(req.session)
 })
 
 // //===================================================
@@ -289,12 +280,10 @@ router
 router
   .get('/troll/attack', (req, res) => {
 
-    const x = req.session
-
     // update session on database
-    x.player.player_health -= 40
+    req.session.player.player_health -= 40
 
-    return res.send(x)
+    return res.send(req.session)
 })
 
 // //===================================================
@@ -302,9 +291,7 @@ router
 // //===================================================
 router
   .get('/troll/counterattack', (req, res) => {
-
-    const x = req.session
-
+    
     // update session on database
     x.player.troll_health -= 75
     x.player.player_health -= 40
@@ -431,24 +418,51 @@ module.exports = router
 
 //=========================================
 // game state functions
+// 
+// NOT USING THESE, CAUSES WHAT I THINK IS A ASYNC ERROR WHEN PUSH TO HEROKU
+//
+// ERROR: 
+//     Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+
+// UNSURE HOW TO FIX  ¯\_(ツ)_/¯ 
+
 //=========================================
 
-const checkStateTrueFalse = (data, res, currentId, check, alternatePage) => {
+// const checkStateTrueFalse = (data, res, currentId, check, alternatePage) => {
   
-  if (data.id === currentId && check) {
+//   if (data.id === currentId && check) {
 
-    res.redirect(alternatePage)
+//     return res.redirect(alternatePage)
 
-  }
+//   }
   
-}
+// }
 
-const checkEvaluation = (data, res, currentId, check, eval, number, alternatePage) => {
+// const checkEvaluation = (data, res, currentId, check, eval, number, alternatePage) => {
 
-  if (data.id === currentId && check + eval + number) {
+//   if (data.id === currentId && check + eval + number) {
 
-    res.redirect(alternatePage)
+//     return res.redirect(alternatePage)
 
-  }
+//   }
 
-}
+// }
+
+// // // if you already have a torch and at torch scene
+        // checkStateTrueFalse(q, res, 16, sess.torch_state, '/game/level/20')
+
+        // // if you already have a cake and talking to the lady
+        // checkStateTrueFalse(q, res, 3, sess.cake_state, '/game/level/21')
+
+        // // if you say yes but do not have cake 
+        // checkStateTrueFalse(q, res, 11, !sess.cake_state, '/game/level/12')
+
+        // // if you attack with torch but do not have torch
+        // checkStateTrueFalse(q, res, 15, !sess.torch_state, '/game/level/23')
+
+        // // if troll is not dead
+        // checkEvaluation(q, res, 14, sess.troll_health, ">",  75, '/game/level/24')   
+
+        // // if troll is dead
+        // checkEvaluation(q, res, 13, sess.troll_health, "<=", 0, '/game/level/25')
+        // checkEvaluation(q, res, 9, sess.troll_health, "<=", 0, '/game/level/25')
