@@ -1,3 +1,5 @@
+USE DUNGEON_CRAWLER;
+
 DROP TABLE level_questions;
 
 CREATE TABLE level_questions
@@ -94,7 +96,7 @@ CREATE TABLE level_questions
         (
             "path 10 you are looking at the troll in front of the dungeon",
             "Snargle Snargle, I am a troll and me like cake! Do you have cake?",
-            "Yes, Fight the troll with your sword, Go back",
+            "Yes, Fight the troll, Go back",
             "11, 13, 9",
             "/images/backgrounds/page18.jpg",
             null-- troll
@@ -110,7 +112,7 @@ CREATE TABLE level_questions
         (
             "path 12 you say you have the cake but actually dont",
             "Bah! You dont have cake! Me take gold! (lose 250 gold)",
-            "Go back, Fight the troll with your sword",
+            "Go back, Fight the troll",
             "9, 13",
             "/images/backgrounds/page14.jpg",
             "/subtract/gold/250"-- troll
@@ -118,26 +120,26 @@ CREATE TABLE level_questions
         (
             "path 13 battle directions",
             "You ready to fight!?!",
-            "Attack the troll, Gain some health, Leave the battle",
+            "Attack with sword, Attack with torch, Leave the battle",
             "14, 15, 9",
             "/images/backgrounds/page6.jpg",
             null--  battle troll
     ),
         (
-            "path 14 you are fighting the troll",
-            "You attacked the troll! The troll lost health. He attacks you.",
-            "Attack the troll, Gain some health, Leave the battle",
-            "14, 15, 9",
+            "path 14 you are fighting the troll with your sword",
+            "You attacked the troll!",
+            "Keep fighting, Leave the battle",
+            "13, 9",
             "/images/backgrounds/page15.jpg",
-            null--  battle troll
+            "/attack/sword"
     ),
         (
-            "path 15 you are gaining defence, the troll has less attack power",
-            "You gain some health back! He attacks you..",
-            "Attack the troll, Gain some health, Leave the battle",
-            "14, 15, 9",
+            "path 15 you are fighting the troll with a torch",
+            "You attack the troll. He's on fire!",
+            "Keep fighting, Leave the battle",
+            "13, 9",
             "/images/backgrounds/page16.jpg",
-            null--  battle troll
+            "/attack/torch"
     ),
         (
             "path 16 you are looking at the torch",
@@ -194,4 +196,28 @@ CREATE TABLE level_questions
             "1",
             "/images/backgrounds/page19.jpg",
             "/subtract/gold/250" -- old man
-    )
+    ),
+		(
+			"path 23 you attacked with a torch you do not have",
+            "You don't have a torch. The troll attacks you!",
+            "Keep Fighting, Leave the battle",
+            "13, 9",
+            "/images/backgrounds/page16.jpg",
+            "/troll/attack"
+	),
+		(
+			"path 24, you've attacked with your sword",
+            "You've injured, and angered, the troll. The troll attacks you!",
+            "Keep Fighting, leave the battle",
+            "13, 9",
+            "/images/backgrounds/page16.jpg",
+            "/troll/counterattack"
+	),
+		(
+			"path 25, the troll is dead!",
+            "You've killed the troll. Loot 250 gold from the corpse",
+             "Go into the dungeon",
+            "99",
+            "/images/backgrounds/page4.jpg",
+            "/add/gold/250"
+	)
