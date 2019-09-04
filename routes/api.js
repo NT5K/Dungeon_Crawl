@@ -3,6 +3,18 @@ const express = require('express');
 const router = express.Router();
 var axios = require("axios");
 
+const checkStateTrueFalse = (data, res, currentId, check, alternatePage) => {
+  
+  if (data.id === currentId && check) {
+    return res.redirect(alternatePage)
+  }
+  
+}
+const checkEvaluation = (data, res, currentId, check, eval, number, alternatePage) => {
+  if (data.id === currentId && check + eval + number) {
+    return res.redirect(alternatePage)
+  }
+}
 //=================================
   // game level and player stats
 //=================================
@@ -34,44 +46,52 @@ router
         // if page number is greater than the last question id, then redirect to the start page
         // CHANGE TO MAX DATABASE NUMBER IN THE END
         if (req.params.page > 25) {
-          return res.redirect('/error')
+          return res.redirect('/game_win')
         }
       
         // variables for index.ejs
         const q = data[0];
 
-        // if you already have a torch and at torch scene
-        if (q.id === 16 && sess.torch_state) {
-          res.redirect('/game/level/20')
-        }
+        
+        // // if you already have a torch and at torch scene
+        checkStateTrueFalse(q, res, 16, sess.torch_state, '/game/level/20')
+        // if (q.id === 16 && sess.torch_state) {
+        //   res.redirect('/game/level/20')
+        // }
 
         // if you already have a cake and talking to the lady
-        else if (q.id === 3 && sess.cake_state) {
-          res.redirect('/game/level/21')
-        }
+        checkStateTrueFalse(q, res, 3, sess.cake_state, '/game/level/21')
+        // if (q.id === 3 && sess.cake_state) {
+        //   res.redirect('/game/level/21')
+        // }
 
         // if you say yes but do not have cake 
-        else if (q.id === 11 && !sess.cake_state) {
-          res.redirect('/game/level/12')
-        }
+        checkStateTrueFalse(q, res, 11, !sess.cake_state, '/game/level/12')
+        // if (q.id === 11 && !sess.cake_state) {
+        //   res.redirect('/game/level/12')
+        // }
 
         // if you attack with torch but do not have torch
-        else if (q.id === 15 && !sess.torch_state) {
-          res.redirect('/game/level/23')
-        }
+        checkStateTrueFalse(q, res, 15, !sess.torch_state, '/game/level/23')
+        // if (q.id === 15 && !sess.torch_state) {
+        //   res.redirect('/game/level/23')
+        // }
 
         // if troll is not dead
-        else if (q.id === 14 && sess.troll_health > 75) {
-          res.redirect('/game/level/24')
-        }
+        checkEvaluation(q, res, 14, sess.troll_health, ">",  75, '/game/level/24')
+        // if (q.id === 14 && sess.troll_health > 75) {
+        //   res.redirect('/game/level/24')
+        // }
 
-        // if troll is dead
-        else if ((q.id === 13 && sess.troll_health <= 0) || (q.id === 9 && sess.troll_health <= 0)) {
+        // // if troll is dead
+        // checkEvaluation(q, res, 13, sess.troll_health, "<=", 0, '/game/level/25')
+        // checkEvaluation(q, res, 9, sess.troll_health, "<=", 0, '/game/level/25')
+        if ((q.id === 13 && sess.troll_health <= 0) || (q.id === 9 && sess.troll_health <= 0)) {
           res.redirect('/game/level/25')
         }
 
         // catch any errors
-        else if (err) {
+        if (err) {
           console.log(err);
           return res.status(500).send('oops');
         }
@@ -264,9 +284,12 @@ router
 router
   .get('/attack/sword', (req, res) => {
 
+    const x = req.session
+
     // update session on database
-    req.session.player.troll_health -= 75
-    return res.send(req.session)
+    x.player.troll_health -= 75
+
+    return res.send(x)
   })
 
 // //===================================================
@@ -275,9 +298,12 @@ router
 router
   .get('/attack/torch', (req, res) => {
 
+    const x = req.session
+
     // update session on database
-    req.session.player.troll_health -= 125
-    return res.send(req.session)
+    x.player.troll_health -= 125
+
+    return res.send(x)
 })
 
 // //===================================================
@@ -286,9 +312,12 @@ router
 router
   .get('/troll/attack', (req, res) => {
 
+    const x = req.session
+
     // update session on database
-    req.session.player.player_health -= 50
-    return res.send(req.session)
+    x.player.player_health -= 40
+
+    return res.send(x)
 })
 
 // //===================================================
@@ -297,10 +326,13 @@ router
 router
   .get('/troll/counterattack', (req, res) => {
 
+    const x = req.session
+
     // update session on database
-    req.session.player.troll_health -= 75
-    req.session.player.player_health -= 50
-    return res.send(req.session)
+    x.player.troll_health -= 75
+    x.player.player_health -= 40
+
+    return res.send(x)
 })
 
 // //===================================================
@@ -381,7 +413,7 @@ router
 
 
 //=========================================
-// view all sessoins
+// view all sessions
 //=========================================
 
 router
