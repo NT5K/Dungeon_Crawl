@@ -1,84 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('partials/head') %>
-  </head>
-  <body class="bg-dark">
-      <div class="container-fluid" style="background-image: url('<%= background %>'); background-size: 100%; background-repeat: no-repeat;">
-      
-        <h2 class="text-white text-center border border-white">DUNGEON CRAWLER</h2>
-      
-        <!-- row for menu at top -->
-        <div class="row justify-content-left mt-1">
-      
-          <!-- player stats column (left) -->
-          <div class="col-md-2 col-sm-3 col-6 border p-3 bg-white">
-      
-            <!-- player stats dynamically built using id's with jQuery -->
-            <h6 class="border-bottom"><b><%= name %>:</b></h6>
-            <div class="text-center" id="player-stats">
-              <h6 id="player-health" class="border-bottom">Health: <%= health %></h6>
-              <h6 id="player-attack" class="border-bottom">Gold: <%= gold %></h6>
-            </div>
 
-            <h6 class="border-bottom"><b>Troll:</b></h6>
-            <div class="text-center" id="player-stats">
-              <h6 id="player-health" class="border-bottom">Health: <%= troll_health %></h6>
-            </div>
+<head>
+  <%- include('partials/head') %>
+</head>
 
-            <h6 class="border-bottom"><b>Things:</b></h6>
-            <div class="text-center" id="game-things">
-              <h6 id="current-level" class="border-bottom">Page: <%= qId %> </h6>
-              <h6 id="current-items" class="border-bottom">Cakes: <%= cake_state %></h6>
-              <h6 id="current-time" class="border-bottom">Torch: <%= torch_state %></h6>
-            </div>
-          </div>
-          <!-- end stats row -->
+<body class="bg-dark">
+  <div class="container-fluid"
+    style="background-image: url('<%= background %>'); background-size: 100%; background-repeat: no-repeat;">
+
+    <h2 id="topTitle">DUNGEON CRAWLER</h2>
+
+
+    <!-- row for menu at top -->
+    <div class="row justify-content-left mt-1">
+
+      <!-- player stats column (left) -->
+      <div class="col-md-2 col-sm-3 col-6 statBox">
+
+        <!-- player stats dynamically built using id's with jQuery -->
+        <h6 class="border-bottom"><b><%= name %>:</b></h6>
+        <div class="text-center" id="player-stats">
+          <h6 id="player-health" class="border-bottom">Health: <%= health %></h6>
+          <h6 id="player-attack" class="border-bottom">Gold: <%= gold %></h6>
         </div>
-      
-        <!-- game play area -->
-      
-        <!-- row for text display -->
-        <div class="row align-items-end justify-content-center pb-1 " id="gamediv">
-   
-          <!-- column for question / choices -->
-          <div class="col-12 bg-warning h-10">
-            <div class="mt-1" id="text-area"><%= question %></div><hr>
 
-            <!-- row for choices buttons -->
-            <div class="row align-items-end">
-
-              
-              <!-- populate questions -->
-              <!-- each iteration, create a new button -->
-              <% for (let i = 0; i < choices.split(", ").length; i++) { %>
-                <div class="col-6">
-                  <a href="/game/level/<%= next_page.split(', ')[i] %>" class="btn btn-primary mb-2" 
-                    role="button" id="<%= next_page.split(', ')[i] %>"><%= choices.split(", ")[i] %></a><br>
-                </div>
-              <% } %>
-
-            </div>
-            
-          </div>
-          
+        <h6 class="border-bottom"><b>Troll:</b></h6>
+        <div class="text-center" id="player-stats">
+          <h6 id="player-health" class="border-bottom">Health: <%= troll_health %></h6>
         </div>
-      
+
+        <h6 class="border-bottom"><b>Things:</b></h6>
+        <div class="text-center" id="game-things">
+          <h6 id="current-level" class="border-bottom">Page: <%= qId %> </h6>
+          <h6 id="current-items" class="border-bottom">Cakes: <%= cake_state %></h6>
+          <h6 id="current-time" class="border-bottom">Torch: <%= torch_state %></h6>
+        </div>
+      </div>
+      <!-- end stats row -->
+    </div>
+
+    <!-- game play area -->
+
+    <!-- row for text display -->
+    <div class="row align-items-end justify-content-center mt-2 pb-1 ">
+
+      <!-- column for question / choices -->
+      <div class="col-12 questionChoices animated zoomInDown faster" id="gamediv">
+        <div class=" mt-1 text-white myShadow" id="text-area"><%= question %></div>
+        <hr>
+
+        <!-- row for choices buttons -->
+        <div class="row align-items-end">
+
+
+
+
+          <!-- populate questions -->
+          <!-- each iteration, create a new button -->
+          <% for (let i = 0; i < choices.split(", ").length; i++) { %>
+          <div class="col-4">
+            <a href="/game/level/<%= next_page.split(', ')[i] %>" class="btn btn-sm mb-2 ml-4 animated fadeIn"
+              role="button" id="<%= next_page.split(', ')[i] %>"><%= choices.split(", ")[i] %></a><br>
+          </div>
+          <% } %>
+
+        </div>
+
       </div>
 
-        <!-- javascript and jquery -->
-        <%- include('partials/scripts') %>
-      
-        
-        <% if (query_option) { %>
-          <script>
-            // if there is a query_option in the database, do a query to said route
-            const query = "<%= query_option %>"
-            $.ajax(query, {
-                type: "get"
-              })
-          </script>
-        <% } %> 
+      <!-- javascript and jquery -->
+      <%- include('partials/scripts') %>
 
-  </body>
+
+      <% if (query_option) { %>
+      <script>
+        // if there is a query_option in the database, do a query to said route
+        const query = "<%= query_option %>"
+        $.ajax(query, {
+          type: "get"
+        })
+      </script>
+      <% } %>
+
+</body>
+
 </html>
