@@ -21,6 +21,11 @@ router
     else if (sess.player_health <= 0) {
       return res.redirect('/you_died')
     } 
+
+    // // redirect to dead troll screen if troll is dead
+    // else if (sess.troll_health <= 0) {
+    //   return res.redirect('/game/level/25')
+    // }
   
     // query the question database
     else {
@@ -28,7 +33,7 @@ router
 
         // if page number is greater than the last question id, then redirect to the start page
         // CHANGE TO MAX DATABASE NUMBER IN THE END
-        if (req.params.page > 22) {
+        if (req.params.page > 25) {
           return res.redirect('/error')
         }
       
@@ -49,6 +54,22 @@ router
         else if (q.id === 11 && !sess.cake_state) {
           res.redirect('/game/level/12')
         }
+
+        // if you attack with torch but do not have torch
+        else if (q.id === 15 && !sess.torch_state) {
+          res.redirect('/game/level/23')
+        }
+
+        // if troll is not dead
+        else if (q.id === 14 && sess.troll_health > 75) {
+          res.redirect('/game/level/24')
+        }
+
+        // if troll is dead
+        else if ((q.id === 13 && sess.troll_health <= 0) || (q.id === 9 && sess.troll_health <= 0)) {
+          res.redirect('/game/level/25')
+        }
+
         // catch any errors
         else if (err) {
           console.log(err);
@@ -160,6 +181,21 @@ router
 
   });
 
+  //=============================================
+  // add 250 gold when looting dead troll
+//=============================================
+
+router
+.get('/add/gold/250', (req, res) => {
+
+  const x = req.session
+
+   // update session on database
+  x.player.player_gold += 250
+  return res.send(x.player)
+
+});
+
 //===================================================
 // update torch state to true
 //===================================================
@@ -221,6 +257,51 @@ router
     return res.send(x)
 
   });
+
+// //===================================================
+//   // attack troll with sword
+// //===================================================
+router
+  .get('/attack/sword', (req, res) => {
+
+    // update session on database
+    req.session.player.troll_health -= 75
+    return res.send(req.session)
+  })
+
+// //===================================================
+//   // attack troll with torch
+// //===================================================
+router
+  .get('/attack/torch', (req, res) => {
+
+    // update session on database
+    req.session.player.troll_health -= 125
+    return res.send(req.session)
+})
+
+// //===================================================
+//   // troll attacks you
+// //===================================================
+router
+  .get('/troll/attack', (req, res) => {
+
+    // update session on database
+    req.session.player.player_health -= 50
+    return res.send(req.session)
+})
+
+// //===================================================
+//   // troll counterattacks you
+// //===================================================
+router
+  .get('/troll/counterattack', (req, res) => {
+
+    // update session on database
+    req.session.player.troll_health -= 75
+    req.session.player.player_health -= 50
+    return res.send(req.session)
+})
 
 // //===================================================
 //   // update cake state to false
