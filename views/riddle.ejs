@@ -9,13 +9,14 @@
     <div class="container-fluid"
         style="background-image: url('<%= background %>'); background-size: 100%; background-repeat: no-repeat;">
 
-        <h2 class="text-white text-center border border-white">DUNGEON CRAWLER</h2>
+        <h2 id="topTitle">DUNGEON CRAWLER</h2>
+
 
         <!-- row for menu at top -->
         <div class="row justify-content-left mt-1">
 
             <!-- player stats column (left) -->
-            <div class="col-md-2 col-sm-3 col-6 border p-3 bg-white">
+            <div class="col-md-2 col-sm-3 col-6 statBox">
 
                 <!-- player stats dynamically built using id's with jQuery -->
                 <h6 class="border-bottom"><b><%= name %>:</b></h6>
@@ -42,26 +43,31 @@
         <!-- game play area -->
 
         <!-- row for text display -->
-        <div class="row align-items-end justify-content-center pb-1 " id="gamediv">
+        <div class="row align-items-end justify-content-center mt-2 pb-1 ">
 
             <!-- column for question / choices -->
-            <div class="col-12 bg-warning h-10">
-                <div class="mt-1" id="text-area"><%= question %></div>
+            <div class="col-12 questionChoices animated zoomInDown faster" id="gamediv">
+                <div class="mt-1 text-white myShadow" id="text-area"><%= question %></div>
                 <hr>
 
                 <!-- row for choices buttons -->
                 <div class="row align-items-end">
 
-
                     <!-- populate questions -->
                     <!-- each iteration, create a new button -->
                     <% for (let i = 0; i < choices.toString().split(",").length; i++) { %>
                     <div class="col-6">
-                        <a href="/game/level/<%= next_page.split(', ')[i] %>" class="btn btn-primary mb-2" role="button"
+                        <a href="/game/level/<%= next_page.split(', ')[i] %>" class="btn btn-sm mb-2 animated fadeIn"
+                            role="button"
                             id="<%= next_page.split(', ')[i] %>"><%= choices.toString().split(",")[i] %></a><br>
                     </div>
                     <% } %>
+
+                    <a href="/game/level/8 %>" class="btn btn-sm mb-2 ml-3 animated fadeIn" role="button"
+                        id="8"><%= answer %></a><br>
+
                     <a href="/game/level/8" class="btn btn-primary mb-2 ml-3" role="button" id="8"><%= answer %></a><br>
+
 
                 </div>
 
