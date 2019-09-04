@@ -8,7 +8,7 @@ const app = express()
 
 // express session variables
 const session = require('express-session')
-const MySQLStore = require('express-mysql-session')(session);
+const MySQLStore = require('express-mysql-session')(session)
 
 const x = process.env
 
