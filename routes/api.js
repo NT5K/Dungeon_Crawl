@@ -29,7 +29,7 @@ router
         // if page number is greater than the last question id, then redirect to the start page
         // CHANGE TO MAX DATABASE NUMBER IN THE END
         if (req.params.page > 22) {
-          return res.redirect('/game_win')
+          return res.redirect('/error')
         }
       
         // variables for index.ejs
@@ -55,7 +55,7 @@ router
           return res.status(500).send('oops');
         }
 
-        // show the index page with current page
+        // if you are on the questoin for the free cake, render riddle.ejs and populate questions with api
         else if (q.id === 6) {
 
           const queryURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple"
@@ -72,8 +72,6 @@ router
                 choices: queryData.incorrect_answers,
                 answer: queryData.correct_answer,
                 next_page: q.next_page_paths,
-                description: q.description,
-                // current_page: q.current_page_number,
                 background: q.image_path,
                 query_option: q.query_option,
 
@@ -103,7 +101,6 @@ router
             choices: q.choices,
             next_page: q.next_page_paths,
             description: q.description,
-            // current_page: q.current_page_number,
             background: q.image_path,
             query_option: q.query_option,
   
@@ -142,6 +139,7 @@ router
     // update session on database
     x.player.player_gold -= 500
     x.player.cake_state = true
+    
     return res.send(x.player)
     
   });
@@ -157,6 +155,7 @@ router
 
      // update session on database
     x.player.player_gold -= 250
+
     return res.send(x.player)
 
   });
@@ -173,6 +172,7 @@ router
      // update session on database
     x.player.torch_state = true
     x.player.player_health -= 10
+
     return res.send(x)
 
   });
@@ -188,6 +188,7 @@ router
 
      // update session on database
     x.player.player_health -= 10
+
     return res.send(x)
 
   });
@@ -212,9 +213,12 @@ router
 router
   .get('/cake/true', (req, res) => {
 
+    const x = req.session
+
     // update session on database
-    req.session.player.cake_state = true
-    return res.send(req.session)
+    x.player.cake_state = true
+
+    return res.send(x)
 
   });
 
@@ -241,11 +245,15 @@ router
     const name = String(req.body.name)
 
     // if form has data continue to game else load start screen again
-    if (req.body.name === '') {
+    if (name === '') {
+
       return res.render('startscreen')
+
     } else {
+
       // redirect to the get request to create session
       return res.redirect('/login/' + name)
+
     }
 
   })
@@ -311,7 +319,7 @@ router
   })    
   
 //=========================================
-// view your cookie
+// view your session
 //=========================================
 
 router

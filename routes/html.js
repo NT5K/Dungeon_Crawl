@@ -26,4 +26,9 @@ router.get('/you_died', (_, res) => {
   })
 })
 
+// error page
+router.get('/error', (_, res) => {
+  res.render('error')
+})
+
 module.exports = router
