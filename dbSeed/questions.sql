@@ -79,7 +79,7 @@ CREATE TABLE level_questions
     ),
         (
             "path 8 you answer the riddle correctly",
-            "Congratulations you answered the riddle correctly! You now have cake in your inventory.",
+            "Congratulations you answered the question correctly! You now have cake in your inventory.",
             "Go back to your table, Talk to the old lady again",
             "1, 4",
             "/images/backgrounds/page13.jpg",
@@ -105,7 +105,7 @@ CREATE TABLE level_questions
             "path 11 you gave the cake to the troll",
             "Mmm. Yummy Yummy! Me like cake. The troll moves aside and the door to the dungeon is open",
             "Go into the dungeon",
-            "99",
+            "26",
             "/images/backgrounds/page9.jpg",
             null -- dungeon open
     ),
@@ -197,27 +197,27 @@ CREATE TABLE level_questions
             "/images/backgrounds/page19.jpg",
             "/subtract/gold/250" -- old man
     ),
-		(
-			"path 23 you attacked with a torch you do not have",
+        (
+            "path 23 you attacked with a torch you do not have",
             "You don't have a torch. The troll attacks you!",
             "Keep Fighting, Leave the battle",
             "13, 9",
             "/images/backgrounds/page16.jpg",
             "/troll/attack"
 	),
-		(
-			"path 24, you've attacked with your sword",
+        (
+            "path 24, you've attacked with your sword",
             "You've injured, and angered, the troll. The troll attacks you!",
             "Keep Fighting, leave the battle",
             "13, 9",
             "/images/backgrounds/page16.jpg",
             "/troll/counterattack"
 	),
-		(
-			"path 25, the troll is dead!",
+        (
+            "path 25, the troll is dead!",
             "You've killed the troll. Loot 250 gold from the corpse",
-             "Go into the dungeon",
-            "99",
+            "Go into the dungeon",
+            "26",
             "/images/backgrounds/page4.jpg",
-            "/add/gold/250"
+            null
 	)

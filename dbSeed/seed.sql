@@ -1,3 +1,8 @@
+-- *********************
+-- unused old seed
+-- *********************
+
+
 CREATE DATABASE DUNGEON_CRAWLER;
 
 

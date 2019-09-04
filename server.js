@@ -23,31 +23,31 @@ app
   .use(express.static(path.join(__dirname, 'public')))
 
 // uncomment options variable for localhost
-const options = {
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'dungeon_crawler',
-  multipleStatements: true
-}
+// const options = {
+//   host: 'localhost',
+//   user: 'root',
+//   password: 'password',
+//   database: 'dungeon_crawler',
+//   multipleStatements: true
+// }
 
 // comment out this for localhost
 // environment variables stored on heroku
-// const options = {
-//   host: x.JAWSDB_HOST,
-//   user: x.JAWSDB_USER,
-//   password: x.JAWSDB_PASSWORD,
-//   database: x.JAWSDB_DATABASE
-// }
+const options = {
+  host: x.JAWSDB_HOST,
+  user: x.JAWSDB_USER,
+  password: x.JAWSDB_PASSWORD,
+  database: x.JAWSDB_DATABASE
+}
 
 // session store for mysql session
-const sessionStore = new MySQLStore(options);
+const sessionStore = new MySQLStore(options)
 
 // session cookie, .env variables on heroku
 app.use(session({
   // change key and secret to strings for localhost: "x.SESSION_KEY"
-  key: "x.SESSION_KEY",
-  secret: "x.SESSION_SECRET",
+  key: x.SESSION_KEY,
+  secret: x.SESSION_SECRET,
   store: sessionStore,
   resave: false,
   saveUninitialized: false

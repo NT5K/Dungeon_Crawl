@@ -1,7 +1,7 @@
 /*  NO MORE ON CLICK EVENTS, THERE IS A IF STATEMENT IN INDEX.EJS THAT CHECKS IF THERE
  IS A query_option ON THE DATABASE. IF NOT NULL IT DOES THE QUERY 
 
-const currentURL = window.location.origin;
+const currentURL = window.location.origin
 
 //===================================================
   // button click for when you purchase cake from lady
@@ -15,10 +15,10 @@ $('#5').on("click", (event) => {
     }).then(() => {
         $.ajax("/cake/true", {
             type: "get"
-        });
-    }).then(() => {;
+        })
+    }).then(() => {
         // redirect to next page
-        location.href = currentURL + "/game/level/5";
+        location.href = currentURL + "/game/level/5"
     })
 })
 
@@ -45,9 +45,9 @@ $('#8').on("click", (event) => {
     event.preventDefault()
     $.ajax("/cake/true", {
         type: "get"
-    }).then(() => {;
+    }).then(() => {
         // redirect to next page
-        location.href = currentURL + "/game/level/8";
+        location.href = currentURL + "/game/level/8"
     })
 })
 
@@ -93,7 +93,7 @@ $('#8').on("click", (event) => {
         type: "get"
     }).then(() => {
         // redirect to next page
-        location.href = currentURL + "/game/level/8";
+        location.href = currentURL + "/game/level/8"
     })
 })
 
@@ -112,7 +112,7 @@ $('#22').on("click", (event) => {
     }).then(() => {
 
         // redirect to next page
-        location.href = currentURL + "/game/level/22";
+        location.href = currentURL + "/game/level/22"
     })
 })
     */
