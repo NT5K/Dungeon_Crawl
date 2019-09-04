@@ -61,7 +61,7 @@ router
         // checkEvaluation(q, res, 9, sess.troll_health, "<=", 0, '/game/level/25')
         if ((q.id === 13 && sess.troll_health <= 0) || (q.id === 9 && sess.troll_health <= 0)) {
 
-          res.redirect('/game/level/25')
+          return res.redirect('/game/level/25')
 
         }
 
@@ -437,7 +437,7 @@ const checkStateTrueFalse = (data, res, currentId, check, alternatePage) => {
   
   if (data.id === currentId && check) {
 
-    return res.redirect(alternatePage)
+    res.redirect(alternatePage)
 
   }
   
@@ -447,7 +447,7 @@ const checkEvaluation = (data, res, currentId, check, eval, number, alternatePag
 
   if (data.id === currentId && check + eval + number) {
 
-    return res.redirect(alternatePage)
+    res.redirect(alternatePage)
 
   }
 
