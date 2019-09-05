@@ -40,7 +40,7 @@ router
       
         // variables for index.ejs
         const q = data[0]
-        
+
         // // // if you already have a torch and at torch scene
               // checkStateTrueFalse(q, res, 16, sess.torch_state, '/game/level/20')
 
@@ -454,7 +454,7 @@ function checkStateTrueFalse(data, res, currentId, check, alternatePage) {
   if (data.id === currentId && check) {
 
     res.redirect(alternatePage)
-
+    return
   }
   
 }
