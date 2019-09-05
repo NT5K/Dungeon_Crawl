@@ -295,10 +295,10 @@ router
   .get('/troll/counterattack', (req, res) => {
     
     // update session on database
-    x.player.troll_health -= 75
-    x.player.player_health -= 40
+    req.session.player.troll_health -= 75
+    req.session.player.player_health -= 40
 
-    return res.send(x)
+    return res.send(req.session)
 })
 
 // //===================================================
