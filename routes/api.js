@@ -40,14 +40,35 @@ router
       
         // variables for index.ejs
         const q = data[0]
+        
+        // // // if you already have a torch and at torch scene
+              // checkStateTrueFalse(q, res, 16, sess.torch_state, '/game/level/20')
+
+              // // if you already have a cake and talking to the lady
+              // checkStateTrueFalse(q, res, 3, sess.cake_state, '/game/level/21')
+
+              // // if you say yes but do not have cake 
+              // checkStateTrueFalse(q, res, 11, !sess.cake_state, '/game/level/12')
+
+              // // if you attack with torch but do not have torch
+              // checkStateTrueFalse(q, res, 15, !sess.torch_state, '/game/level/23')
+
+              // // if troll is not dead
+              // checkEvaluation(q, res, 14, sess.troll_health, ">",  75, '/game/level/24')   
+
+              // // if troll is dead
+              // checkEvaluation(q, res, 13, sess.troll_health, "<=", 0, '/game/level/25')
+              // checkEvaluation(q, res, 9, sess.troll_health, "<=", 0, '/game/level/25')
+
 
         // if you already have a torch and at torch scene
-        if (q.id === 16 && sess.torch_state) {
-          res.redirect('/game/level/20')
-        }
+        checkStateTrueFalse(q, res, 16, sess.torch_state, '/game/level/20')
+        // if (q.id === 16 && sess.torch_state) {
+        //   res.redirect('/game/level/20')
+        // }
 
         // if you already have a cake and talking to the lady
-        else if (q.id === 3 && sess.cake_state) {
+        if (q.id === 3 && sess.cake_state) {
           res.redirect('/game/level/21')
         }
 
@@ -428,15 +449,15 @@ module.exports = router
 
 //=========================================
 
-// const checkStateTrueFalse = (data, res, currentId, check, alternatePage) => {
+function checkStateTrueFalse(data, res, currentId, check, alternatePage) {
   
-//   if (data.id === currentId && check) {
+  if (data.id === currentId && check) {
 
-//     return res.redirect(alternatePage)
+    res.redirect(alternatePage)
 
-//   }
+  }
   
-// }
+}
 
 // const checkEvaluation = (data, res, currentId, check, eval, number, alternatePage) => {
 
@@ -448,21 +469,3 @@ module.exports = router
 
 // }
 
-// // // if you already have a torch and at torch scene
-        // checkStateTrueFalse(q, res, 16, sess.torch_state, '/game/level/20')
-
-        // // if you already have a cake and talking to the lady
-        // checkStateTrueFalse(q, res, 3, sess.cake_state, '/game/level/21')
-
-        // // if you say yes but do not have cake 
-        // checkStateTrueFalse(q, res, 11, !sess.cake_state, '/game/level/12')
-
-        // // if you attack with torch but do not have torch
-        // checkStateTrueFalse(q, res, 15, !sess.torch_state, '/game/level/23')
-
-        // // if troll is not dead
-        // checkEvaluation(q, res, 14, sess.troll_health, ">",  75, '/game/level/24')   
-
-        // // if troll is dead
-        // checkEvaluation(q, res, 13, sess.troll_health, "<=", 0, '/game/level/25')
-        // checkEvaluation(q, res, 9, sess.troll_health, "<=", 0, '/game/level/25')
