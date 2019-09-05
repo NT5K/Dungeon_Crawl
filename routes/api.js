@@ -283,7 +283,7 @@ router
   .get('/troll/attack', (req, res) => {
 
     // update session on database
-    req.session.player.player_health -= 40
+    req.session.player.player_health -= 50
 
     return res.send(req.session)
 })
@@ -296,7 +296,7 @@ router
     
     // update session on database
     req.session.player.troll_health -= 75
-    req.session.player.player_health -= 40
+    req.session.player.player_health -= 50
 
     return res.send(req.session)
 })
