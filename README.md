@@ -1,6 +1,16 @@
 ## Dungeon_Crawl
 #### A choose your own adventure game
 <a href="https://dungeon-crawl.herokuapp.com">Play Now!</a>
+<hr>
 
-`node.js` `express.js` `MySQL` `express-session` `express-mysql-session` `heroku` `jQuery` `ejs` `javascript` `bootstrap` `axios`
+
+
+
+Back-end: `node.js` `express.js`  <br><br>
+Front-end: `jQuery` `ejs` `javascript` `bootstrap` `animate.css` <br><br>
+Database: `MySQL`,<br><br>
+Middleware: `express-session` when used with `express-mysql-session` allows for simultaneous instances of the game across multiple devices. <br>
+<a href="https://dungeon-crawl.herokuapp.com/sessions/yours">Your browser session</a><br>
+<a href="https://dungeon-crawl.herokuapp.com/sessions/all">All sessions</a><br><br>
+API: Questions generated randomly using <a href="https://opentdb.com/">opentdb.com</a>
 
