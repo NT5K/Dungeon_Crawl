@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/dusty-learning/project-2-starter#readme",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "cookie-parser": "^1.4.4",
     "dotenv": "8.0.0",
     "ejs": "2.6.2",
