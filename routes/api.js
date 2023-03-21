@@ -2,7 +2,14 @@
 const express = require('express')
 const router = express.Router()
 var axios = require("axios")
+const mysql = require('mysql');
 
+const pool = mysql.createPool({
+    host: process.env.JAWSDB_HOST,
+    user: process.env.JAWSDB_USER,
+    password: process.env.JAWSDB_PASSWORD,
+    database: process.env.JAWSDB_DATABASE
+});
 
 //=================================
   // game level and player stats
@@ -30,14 +37,14 @@ router
   
     // query the question database
     else {
-      req.connection.query('SELECT * FROM level_questions WHERE id = ?', [req.params.page], (err, data) => {
+      pool.query('SELECT * FROM level_questions WHERE id = ?', [req.params.page], (err, data) => {
 
         // if page number is greater than the last question id, then redirect to the start page
         // CHANGE TO MAX DATABASE NUMBER IN THE END
         if (req.params.page > 25) {
           return res.redirect('/game_win')
         }
-      
+        console.log(data)
         // variables for index.ejs
         const q = data[0]
 
