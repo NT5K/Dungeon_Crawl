@@ -1,6 +1,6 @@
 ## Dungeon_Crawl
 #### A choose your own adventure game
-<a href="https://dungeon-crawl.herokuapp.com">Play Now!</a><br>
+<a href="https://dungeon-crawler-jv8m.onrender.com/">Play Now!</a><br>
 <img src="/public/images/logo/main_screen.jpg" alt="picture" width="400px">
 <hr>
 
